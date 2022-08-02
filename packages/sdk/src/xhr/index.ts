@@ -5,7 +5,7 @@ import { variableTypeDetection } from '../utils/is';
 import type { RecordXhrData, RecordXMLHttpRequest, voidFun } from './interface';
 import { on } from './interface';
 
-export function xhrRecord(): void {
+export function xhrEventRecord(reportUrl: string): void {
   if (!('XMLHttpRequest' in window)) {
     return;
   }
@@ -46,7 +46,7 @@ export function xhrRecord(): void {
       const startTime = getTimestamp();
 
       on(this, 'loadend', function (this: RecordXMLHttpRequest) {
-        if (method === 'POST') {
+        if (method === 'POST' && this.beforeRecordXhrData.httpUrl === reportUrl) {
           return;
         }
 

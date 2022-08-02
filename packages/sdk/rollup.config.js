@@ -13,7 +13,9 @@ const globals = {
   rrweb: 'Rrweb',
   'error-stack-parser': 'ErrorStackParser'
 };
-const external = Object.keys(globals);
+const external = Object.keys({
+  rrweb: 'Rrweb'
+});
 const esExtelrnals = [...external, ...Object.keys(packageJSON.dependencies)];
 
 // 基础配置
@@ -23,8 +25,7 @@ const commonConf = {
     nodeResolve(),
     json(),
     esbuild({
-      tsconfig: path.resolve(path.resolve(__dirname), 'tsconfig.json'),
-      exclude: []
+      tsconfig: path.resolve(path.resolve(__dirname), 'tsconfig.json')
     }),
     commonjs({
       exclude: 'node_modules'
@@ -49,18 +50,13 @@ const outputMap = [
 ];
 
 const buildConf = options => {
-  if (options.format === 'umd') {
+  if (options.output.format === 'umd') {
     commonConf.external = external;
+  } else {
+    commonConf.external = esExtelrnals;
   }
-
-  commonConf.external = esExtelrnals;
 
   return Object.assign({}, commonConf, options);
 };
-
-console.log(
-  outputMap.map(output => buildConf({ output: { name: packageJSON.name, ...output } })),
-  'outputMap.map(output => buildConf({ output: { name: packageJSON.name, ...output } }))'
-);
 
 export default outputMap.map(output => buildConf({ output: { name: packageJSON.name, ...output } }));

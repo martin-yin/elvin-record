@@ -8,12 +8,15 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "emitDeclarationOnly": true, // 只生成生成声明文件，不编译js
+    "declaration": true,
+    "declarationMap": false,
+    "declarationDir": "./types",
+    "outDir": "./lib"
   },
   "include": ["src/**/*.ts"],
 }
