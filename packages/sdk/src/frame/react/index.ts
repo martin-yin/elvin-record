@@ -1,6 +1,6 @@
-import { extractErrorStack } from '../utils/extractErrorStack';
-import { isError } from '../utils/is';
 import { record } from 'rrweb';
+import { extractErrorStack } from '../../utils/extractErrorStack';
+import { isError } from '../../utils/is';
 
 /**
  * react 捕捉到bug时通过这个函数传递给 rrweb。

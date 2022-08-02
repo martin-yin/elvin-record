@@ -18,8 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "error-stack-parser": "^2.1.4",
     "rrweb": "^2.0.0-alpha.0",
-    "error-stack-parser": "^2.1.4"
+    "svelte": "^3.49.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",

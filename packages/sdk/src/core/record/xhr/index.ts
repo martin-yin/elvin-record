@@ -1,7 +1,7 @@
 import { record } from 'rrweb';
-import { getLocationHref, getTimestamp, isHttpFail, replaceOld } from '../utils/helpers';
-import { fromHttpStatus } from '../utils/httpStatus';
-import { variableTypeDetection } from '../utils/is';
+import { getLocationHref, getTimestamp, isHttpFail, replaceOld } from '../../../utils/helpers';
+import { fromHttpStatus } from '../../../utils/httpStatus';
+import { variableTypeDetection } from '../../../utils/is';
 import type { RecordXhrData, RecordXMLHttpRequest, voidFun } from './interface';
 import { on } from './interface';
 
