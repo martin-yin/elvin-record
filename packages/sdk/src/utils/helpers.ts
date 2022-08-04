@@ -32,3 +32,7 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   INTERNAL_EXCEPTION = 500
 }
+
+export function isMobile(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}

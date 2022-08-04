@@ -12,12 +12,12 @@ const getPath = _path => path.resolve(__dirname, _path);
 import packageJSON from './package.json';
 
 const globals = {
-  axios: 'Axios',
-  rrweb: 'Rrweb',
+  axios: 'axios',
+  rrweb: 'rrweb',
   'error-stack-parser': 'ErrorStackParser'
 };
 const external = Object.keys({
-  rrweb: 'Rrweb'
+  rrweb: 'rrweb'
 });
 const esExtelrnals = [...external, ...Object.keys(packageJSON.dependencies)];
 

@@ -1,5 +1,5 @@
+import type { VueInstance, ViewModel } from '../../interface';
 import { handleVueError } from './helper';
-import type { ViewModel, VueInstance } from './interface';
 
 /**
  * 提供给vue的插件

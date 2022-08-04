@@ -1,8 +1,8 @@
 import { record } from 'rrweb';
+import type { ViewModel, VueInstance } from '../../interface';
 import { extractErrorStack } from '../../utils/extractErrorStack';
 import { getBigVersion } from '../../utils/helpers';
 import { variableTypeDetection } from '../../utils/is';
-import type { ViewModel, VueInstance } from './interface';
 
 export function handleVueError(err: Error, vm: ViewModel, info: string, Vue: VueInstance): void {
   const version = Vue?.version;
