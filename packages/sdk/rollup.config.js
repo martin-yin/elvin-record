@@ -3,6 +3,9 @@ import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
+import svelte from 'rollup-plugin-svelte';
+import styles from 'rollup-plugin-styles';
+import sveltePreprocess from 'svelte-preprocess';
 
 const getPath = _path => path.resolve(__dirname, _path);
 
@@ -24,6 +27,10 @@ const commonConf = {
   plugins: [
     nodeResolve(),
     json(),
+    svelte({
+      preprocess: sveltePreprocess({})
+    }),
+    styles(),
     esbuild({
       tsconfig: path.resolve(path.resolve(__dirname), 'tsconfig.json')
     }),

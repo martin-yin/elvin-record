@@ -1,0 +1,67 @@
+@import "../var.less";
+
+.login-form {
+  font-size: inherit;
+  display: block;
+  margin: 0 auto;
+  width: 86%;
+  &__field {
+    height: (50em / @font);
+    line-height: (50em / @font);
+    display: flex;
+    margin-bottom: (16em / @font);
+    &-label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      color: #000000d9;
+      flex: 0;
+      font-size: 14px;
+      box-sizing: border-box;
+      flex-basis: (58em / @font);;
+    }
+    &-value {
+      flex: 1;
+      input {
+        box-sizing: border-box;
+        margin: 0;
+        font-variant: tabular-nums;
+        font-feature-settings: "tnum";
+        position: relative;
+        height: (50em / @font);
+        display: inline-block;
+        min-width: 0;
+        width: 100%;
+        padding: (4em / @font) (10em / @font);
+        color: #000000d9;
+        line-height: 1;
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: (2em / @font);
+        transition: all 0.3s;
+        outline: none;
+      }
+    }
+  }
+}
+.button {
+    color: #fff;
+    border-color: #1890ff;
+    margin-left: (50em / @font);
+    box-sizing: border-box;
+    background: #1890ff;
+    text-shadow: 0 - (1em / @font) 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 (2em / @font) #0000000b;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    padding:0  (16em / @font);
+    border-radius: (2em / @font);
+    height: (40em / @font);
+    line-height: (40em / @font);
+    color: #fff;
+    outline: none;
+    border-color: #d9d9d9;
+  }
