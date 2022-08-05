@@ -7,7 +7,7 @@ import { isError } from '../../utils/is';
  * @param ex
  * @returns
  */
-export function errorBoundary(ex: any): void {
+export function recordReact(ex: any): void {
   if (!isError(ex)) {
     console.warn('传入的react error不是一个object Error');
 

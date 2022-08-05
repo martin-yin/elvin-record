@@ -16,23 +16,23 @@ export let recordEventData: {
 /**
  * 如果本地存在录制的数据那么就继续录制
  */
-function continueRecord() {
-  const localRecordEventData = localStorage.getItem('recordEventData');
+// function continueRecord() {
+//   const localRecordEventData = localStorage.getItem('recordEventData');
 
-  if (localRecordEventData) {
-    // 如果录制状态还没有结束的话，那么就继续录制
-    try {
-      console.log('根据录制状态，录制还未完成，现在开始继续录制');
-      recordEventData = JSON.parse(localRecordEventData);
+//   if (localRecordEventData) {
+//     // 如果录制状态还没有结束的话，那么就继续录制
+//     try {
+//       console.log('根据录制状态，录制还未完成，现在开始继续录制');
+//       recordEventData = JSON.parse(localRecordEventData);
 
-      return recordEventData;
-    } catch (e) {
-      // 解析json失败
-      console.log('解析json数据失败，请从新开始录制');
-      console.log(`失败原因：`, e);
-    }
-  }
-}
+//       return recordEventData;
+//     } catch (e) {
+//       // 解析json失败
+//       console.log('解析json数据失败，请从新开始录制');
+//       console.log(`失败原因：`, e);
+//     }
+//   }
+// }
 
 export class ActionRecord extends BaseActionRecord {
   private options: ActionRecordOptionsType = {
@@ -48,12 +48,6 @@ export class ActionRecord extends BaseActionRecord {
       if (options?.packFn) {
         this.options.packFn = pack;
       }
-    }
-
-    // 用于判断刷新页面后是否直接开始录制
-    if (this.options.unloadRecord) {
-      continueRecord();
-      this.startRecord();
     }
   }
 
@@ -92,16 +86,14 @@ export class ActionRecord extends BaseActionRecord {
         mousemove: false
       }
     });
-    const { unloadRecord } = this.options;
 
     recordEventData.status = ActionRecordStatus.recording;
     // 初始化监听
-    addEventListeners({
-      unloadRecord,
-      recordEventData
-    });
+    addEventListeners();
     // xhr 监听
     xhrEventRecord('');
+
+    return recordEventData.status;
   }
 
   /**
@@ -110,6 +102,9 @@ export class ActionRecord extends BaseActionRecord {
   public stopRecord() {
     if (this.webRecord) {
       this.clear();
+      console.log(recordEventData.status, 'recordEventData');
+
+      return recordEventData.status;
     }
   }
 

@@ -6,7 +6,7 @@
   const dispatch = createEventDispatcher();
   let isLogin = false;
   let showLoginPanel = false;
-  
+
   let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
 
   let fontSize = '';
@@ -28,8 +28,8 @@
       actionRecord = new ActionRecord({
         unloadRecord: true
       });
-      if(actionRecord.getRecordStatus() === ActionRecordStatus.recording) {
-        recordStatus = ActionRecordStatus.recording
+      if (actionRecord.getRecordStatus() === ActionRecordStatus.recording) {
+        recordStatus = ActionRecordStatus.recording;
       }
     }
   });
@@ -58,17 +58,20 @@
    * 开始录制
    */
   const startRecord = () => {
-    console.log('录制了哥');
-    actionRecord.startRecord();
-    recordStatus = actionRecord.getRecordStatus();
+    const status = actionRecord.startRecord();
+    if (status) {
+      recordStatus = status;
+    }
   };
 
   /**
    * 停止录制
    */
   const stopRecord = () => {
-    actionRecord.stopRecord();
-    recordStatus = actionRecord.getRecordStatus();
+    const status = actionRecord.stopRecord();
+    if (status === ActionRecordStatus.done) {
+      recordStatus = status;
+    }
   };
 </script>
 
@@ -76,7 +79,7 @@
   <div style={fontSize ? 'font-size:' + fontSize + ';' : ''}>
     {#if !isLogin}
       <div class="record-btn" on:click={onTapEventShow}>登录</div>
-    {:else if recordStatus === ActionRecordStatus.done}
+    {:else if recordStatus === 0}
       <div class="record-btn" on:click={startRecord}>录制</div>
     {:else}
       <div class="record-btn" on:click={stopRecord}>停止录制</div>
