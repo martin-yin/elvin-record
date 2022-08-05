@@ -3,9 +3,12 @@
   import { ActionRecordStatus } from '../interface';
   import { ActionRecord } from '../record/action-record';
   import LoginForm from './login-form/login-form.svelte';
+  import RecordButton from './record-button/record-button.svelte';
   const dispatch = createEventDispatcher();
   let isLogin = false;
   let showLoginPanel = false;
+
+  let switchButtonPosition = { x: 0, y: 0 };
 
   let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
 
@@ -85,6 +88,7 @@
       <div class="record-btn" on:click={stopRecord}>停止录制</div>
     {/if}
 
+    <RecordButton bind:position={switchButtonPosition} />
     <div class:toggle={showLoginPanel}>
       <div class="mask" on:click={onTapEventHide} />
       <div class="panel">
