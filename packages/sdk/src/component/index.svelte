@@ -5,15 +5,13 @@
   import LoginForm from './login-form/login-form.svelte';
   import RecordButton from './record-button/record-button.svelte';
   const dispatch = createEventDispatcher();
-  let isLogin = false;
   let showLoginPanel = false;
-
-  let switchButtonPosition = { x: 0, y: 0 };
-
-  let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
-
-  let fontSize = '';
   let actionRecord: ActionRecord;
+  let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
+  let isLogin = false;
+
+  let switchButtonPosition = { x: 20, y: 20 };
+  let fontSize = '';
 
   onMount(() => {
     const viewportEl = document.querySelectorAll('[name="viewport"]');
@@ -37,16 +35,6 @@
     }
   });
 
-  const handleLoginResult = (event: any) => {
-    if (event.detail.result === '登录成功了, 哥') {
-      showLoginPanel = false;
-      isLogin = true;
-      actionRecord = new ActionRecord({
-        unloadRecord: true
-      });
-    }
-  };
-
   const onTapEventShow = (e: any) => {
     showLoginPanel = true;
     dispatch('show', { showLoginPanel: true });
@@ -55,6 +43,13 @@
   const onTapEventHide = (e: any) => {
     showLoginPanel = false;
     dispatch('show', { showLoginPanel: false });
+  };
+
+  const handleLoginResult = (event: any) => {
+    if (event.detail.result === '登录成功了, 哥') {
+      showLoginPanel = false;
+      isLogin = true;
+    }
   };
 
   /**
@@ -80,15 +75,16 @@
 
 <main>
   <div style={fontSize ? 'font-size:' + fontSize + ';' : ''}>
-    {#if !isLogin}
-      <div class="record-btn" on:click={onTapEventShow}>登录</div>
-    {:else if recordStatus === 0}
-      <div class="record-btn" on:click={startRecord}>录制</div>
-    {:else}
-      <div class="record-btn" on:click={stopRecord}>停止录制</div>
-    {/if}
+    <RecordButton bind:position={switchButtonPosition}>
+      {#if !isLogin}
+        <div on:click={onTapEventShow}>登录</div>
+      {:else if recordStatus === ActionRecordStatus.done}
+        <div on:click={startRecord}>录制</div>
+      {:else}
+        <div on:click={stopRecord}>停止录制</div>
+      {/if}
+    </RecordButton>
 
-    <RecordButton bind:position={switchButtonPosition} />
     <div class:toggle={showLoginPanel}>
       <div class="mask" on:click={onTapEventHide} />
       <div class="panel">

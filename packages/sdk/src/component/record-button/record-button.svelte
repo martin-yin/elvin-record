@@ -45,8 +45,8 @@
     if (x < 0) {
       x = 0;
     }
-    if (y < 20) {
-      y = 20;
+    if (y < 0) {
+      y = 0;
     }
     return [x, y];
   };
@@ -79,22 +79,19 @@
     switchPos.endX = x;
     switchPos.endY = y;
     switchPos.hasMoved = true;
-
-    console.log(switchPos, 'switchPos');
-
     e.preventDefault();
   };
 </script>
 
 <div
   class="record-btn"
-  style="right: 20px; bottom: {btnSwitchPos.y}px; display: {show ? 'block' : 'none'};"
+  style="right:  {btnSwitchPos.x}px; bottom: {btnSwitchPos.y}px; display: {show ? 'block' : 'none'};"
   bind:this={btnSwitch}
   on:touchstart={onTouchStart}
   on:touchend={onTouchEnd}
   on:touchmove={onTouchMove}
 >
-  录制
+  <slot />
 </div>
 
 <style scoped lang="less">

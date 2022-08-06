@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
   function submit() {
-    localStorage.setItem("login", "true")
+    localStorage.setItem('login', 'true');
     dispatch('loginResult', {
       result: '登录成功了, 哥'
     });

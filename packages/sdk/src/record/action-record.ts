@@ -102,7 +102,6 @@ export class ActionRecord extends BaseActionRecord {
   public stopRecord() {
     if (this.webRecord) {
       this.clear();
-      console.log(recordEventData.status, 'recordEventData');
 
       return recordEventData.status;
     }
