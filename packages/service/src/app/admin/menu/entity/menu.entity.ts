@@ -6,7 +6,9 @@ export class MenuEntity extends BaseEntity {
   @Column({ name: 'parent_id', nullable: true, comment: '父节点ID' })
   parentId: number;
 
-  @Column()
+  @Column({
+    comment: '节点名称',
+  })
   name: string;
 
   @Column({ nullable: true, comment: '节点路由' })
@@ -21,7 +23,7 @@ export class MenuEntity extends BaseEntity {
   @Column({ nullable: true })
   icon: string;
 
-  @Column({ name: 'order_num', type: 'int', default: 0, nullable: true })
+  @Column({ type: 'int', default: 0, nullable: true })
   sort: number;
 
   @Column({ name: 'view_path', nullable: true, comment: '文件路径' })
