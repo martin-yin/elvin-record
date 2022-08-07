@@ -21,6 +21,9 @@ export abstract class BaseEntity {
   @UpdateDateColumn()
   updatedAt?: Date;
 
+  @Column({ type: 'tinyint', nullable: true, default: 1 })
+  status: number;
+
   //   @CreateUserColumn()
   //   @Column({ type: 'bigint', unsigned: true, transformer: idTransformer })
   //   createdById?: number;
