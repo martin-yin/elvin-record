@@ -1,7 +1,9 @@
-import { BaseEntity } from '@/common/database/entity/base.entity';
+import { BaseEntity } from '@/entity/base.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity()
+@Entity({
+  name: 'api',
+})
 export class ApiEntity extends BaseEntity {
   @Column()
   path: string;

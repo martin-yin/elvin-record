@@ -1,7 +1,9 @@
-import { BaseEntity } from '@/common/database/entity/base.entity';
+import { BaseEntity } from '@/entity/base.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity()
+@Entity({
+  name: 'menu',
+})
 export class MenuEntity extends BaseEntity {
   @Column({ name: 'parent_id', nullable: true, comment: '父节点ID' })
   parentId: number;

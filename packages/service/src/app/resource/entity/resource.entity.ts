@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/common/database/entity/base.entity';
+import { BaseEntity } from '@/entity/base.entity';
 import { Column, Entity, Index, ManyToOne, DeepPartial } from 'typeorm';
 import { ResourceGroupEntity } from './resource.group.entity';
 
@@ -14,7 +14,9 @@ export enum ResourceTypeEnum {
 
 export type ResourceEntityDataType = DeepPartial<ResourceEntity>;
 
-@Entity()
+@Entity({
+  name: 'resource',
+})
 export class ResourceEntity extends BaseEntity {
   @Column('tinyint', {
     comment: '存储对象,0其他,10七牛云,默认0',

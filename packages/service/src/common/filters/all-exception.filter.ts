@@ -5,14 +5,14 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { LoggerService } from '../logger/providers/logger.service';
-import { TimeUtil } from '../utils/time.util';
+import { ElLoggerService } from '../services';
+import { TimeUtil } from '../utils';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(
     private timeUtil: TimeUtil,
-    private loggerService: LoggerService,
+    private elLoggerService: ElLoggerService,
   ) {}
 
   catch(exception: any, host: ArgumentsHost) {
@@ -20,20 +20,21 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const res = ctx.getResponse();
     const req = ctx.getRequest();
 
-    const status =
+    const code =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
     const data = {
-      code: status,
+      code,
+      status: false,
+      time: this.timeUtil.CurrentTime,
       path: req.url,
       error: exception.message,
-      time: this.timeUtil.CurrentTime,
     };
 
-    this.loggerService.setContext(AllExceptionsFilter.name);
-    this.loggerService.exception(status, data, req, exception);
+    this.elLoggerService.setContext(AllExceptionsFilter.name);
+    this.elLoggerService.exception(code, data, req, exception);
 
-    res.status(status).json(data);
+    res.status(code).json(data);
   }
 }

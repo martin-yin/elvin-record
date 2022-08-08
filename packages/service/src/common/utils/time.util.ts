@@ -8,6 +8,7 @@ import {
   differenceInDays,
 } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
+import ms from 'ms';
 
 @Injectable()
 export class TimeUtil {
@@ -17,6 +18,11 @@ export class TimeUtil {
   public dateFormat = (fm: string, date: Date = new Date()) => {
     return format(date, fm, { locale: zhCN });
   };
+
+  /**
+   * 各种时间格式转换为毫秒
+   */
+  public getMs = (value: string) => ms(value);
 
   /**
    * 获取当前时间戳
@@ -96,16 +102,12 @@ export class TimeUtil {
       switch (type) {
         case 'day':
           return days;
-          break;
         case 'hour':
           return hours;
-          break;
         case 'min':
           return mins;
-          break;
         case 'sec':
           return timediff;
-          break;
       }
     } else {
       if (days >= 1) {

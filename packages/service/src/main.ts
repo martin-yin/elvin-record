@@ -1,28 +1,60 @@
+declare const module: any;
 import { NestFactory } from '@nestjs/core';
-import { createLogger } from 'winston';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app/app.module';
+import {
+  HttpExceptionFilter,
+  QueryFailedExceptionFilter,
+} from './common/filters';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
-import { HttpExceptionFilter } from './common/filters/http.exception.filter';
-import { ResponseInterceptor } from './common/interceptor/response.interceptor';
-import { LoggerService } from './common/logger/providers/logger.service';
-import { WinstonConfigService } from './common/logger/providers/winston.service';
-import { ValidationPipe } from './common/pipe/validation.pipe';
+import {
+  LoggingInterceptor,
+  TransformInterceptor,
+} from './common/interceptors';
+import { ElConfigService, ElLoggerService } from './common/services';
+import { ColorUtil } from './common/utils';
 import { TimeUtil } from './common/utils/time.util';
+import helmet from 'helmet';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const loggerService = new LoggerService(
-    createLogger(new WinstonConfigService().createWinstonModuleOptions()),
-  );
-  app.useGlobalInterceptors(new ResponseInterceptor(loggerService));
-  const timeUtil = new TimeUtil();
-  app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
+
+  const elConfigService = app.get(ElConfigService);
+  const colorUtil = app.get(ColorUtil);
+  const timeUtil = app.get(TimeUtil);
+  const elLoggerService = app.resolve(ElLoggerService);
+
+  const port = elConfigService.get<number>('PORT');
+
+  // 全局前缀
+  app.setGlobalPrefix('api');
+
+  // 设置HTTP标头
+  app.use(helmet());
+
   // 全局拦截器
-  app.useGlobalFilters(
-    new AllExceptionsFilter(timeUtil, loggerService),
-    new HttpExceptionFilter(timeUtil, loggerService),
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(colorUtil, await elLoggerService),
+    new TransformInterceptor(timeUtil),
   );
-  await app.listen(3100);
+
+  // 全局过滤器
+  app.useGlobalFilters(
+    new AllExceptionsFilter(timeUtil, await elLoggerService),
+    new HttpExceptionFilter(timeUtil, await elLoggerService),
+    new QueryFailedExceptionFilter(timeUtil, await elLoggerService),
+  );
+
+  // 开始监听关闭挂钩
+  app.enableShutdownHooks();
+
+  await app.listen(port);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();

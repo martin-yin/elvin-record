@@ -1,10 +1,37 @@
-import { Module, Global } from '@nestjs/common';
-import { DatabaseModule } from './database/database.module';
+import { Module } from '@nestjs/common';
+import {
+  DatabaseModule,
+  UtilsModule,
+  ElConfigModule,
+  ElHttpModule,
+  ElJwtModule,
+  ElMulterModule,
+  ElRedisModule,
+  ElThrottlerModule,
+  ElWinstonModule,
+} from './modules';
 
-@Global()
 @Module({
-  imports: [DatabaseModule],
-  providers: [],
-  exports: [],
+  imports: [
+    UtilsModule,
+    ElConfigModule,
+    ElWinstonModule,
+    DatabaseModule,
+    ElMulterModule,
+    ElRedisModule,
+    ElJwtModule,
+    ElHttpModule,
+    ElThrottlerModule,
+  ],
+  exports: [
+    UtilsModule,
+    ElConfigModule,
+    ElWinstonModule,
+    ElMulterModule,
+    ElRedisModule,
+    ElJwtModule,
+    ElHttpModule,
+    ElThrottlerModule,
+  ],
 })
 export class CommonModule {}
