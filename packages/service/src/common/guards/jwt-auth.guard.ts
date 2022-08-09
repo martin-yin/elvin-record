@@ -3,7 +3,7 @@ import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { Redis } from 'ioredis';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { ApiException } from '../exceptions';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -21,9 +21,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     // 获取请求头里的访问令牌
     const authorization = request.headers.authorization || '';
     const accessToken = authorization.split(' ')[1];
-
     // 解析令牌载体
     const payload = this.jwtService.decode(accessToken);
+
     if (_.isNull(payload))
       throw new ApiException('无效的身份认证', HttpStatus.UNAUTHORIZED);
 

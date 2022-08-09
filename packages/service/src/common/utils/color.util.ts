@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import chalk from 'chalk';
+// import chalk from 'chalk';
+const chalk = require('chalk');
 
 @Injectable()
 export class ColorUtil {

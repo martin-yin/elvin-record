@@ -8,7 +8,7 @@ import { format, transports } from 'winston';
 import 'winston-daily-rotate-file';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { CONSOLE_TOP_LINE, CONSOLE_BOTTOM_LINE } from '../constants';
 import { Color } from '../enums';
 import { TimeUtil, ColorUtil } from '../utils';

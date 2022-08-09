@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dtos';
 import { UserEntity } from './entity/user.entity';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { CryptoUtil, success } from '@/common/utils';
 import { ApiException } from '@/common/exceptions';
 import { Result, TokenPayload } from '@/common/interfaces';

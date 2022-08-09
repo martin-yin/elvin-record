@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createHash, createDecipheriv, createCipheriv, Encoding } from 'crypto';
-import argon2 from '@node-rs/argon2';
+import { hash, verify } from '@node-rs/argon2';
 
 @Injectable()
 export class CryptoUtil {
@@ -72,8 +72,9 @@ export class CryptoUtil {
    *
    * @param {string} password 密码
    */
-  encryptPassword = async (password: string): Promise<string> =>
-    await argon2.hash(password);
+  encryptPassword = async (password: string): Promise<string> => {
+    return await hash(password);
+  };
 
   /**
    * 检查密码是否正确
@@ -81,6 +82,7 @@ export class CryptoUtil {
    * @param {string} hash 加密后的密码
    * @param {string} password 密码
    */
-  checkPassword = async (hash: string, password: string): Promise<boolean> =>
-    await argon2.verify(hash, password);
+  checkPassword = async (hash: string, password: string): Promise<boolean> => {
+    return await verify(hash, password);
+  };
 }

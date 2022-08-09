@@ -4,7 +4,7 @@ import { Controller, UseGuards, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @UseGuards(JwtAuthGuard)
-@Controller()
+@Controller('user')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

@@ -22,7 +22,7 @@ export class TimeUtil {
   /**
    * 各种时间格式转换为毫秒
    */
-  public getMs = (value: string) => ms(value);
+  public getMs = (value: string) => value;
 
   /**
    * 获取当前时间戳

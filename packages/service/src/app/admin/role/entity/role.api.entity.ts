@@ -15,5 +15,5 @@ export class RoleApiEntity {
   roleId: number;
 
   @Column()
-  menuId: number;
+  apiId: number;
 }

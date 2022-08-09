@@ -11,7 +11,7 @@ export interface RequestWithUser extends Request {
   user: UserEntity;
 }
 
-@Controller()
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

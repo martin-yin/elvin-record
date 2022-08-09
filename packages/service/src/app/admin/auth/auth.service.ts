@@ -6,7 +6,7 @@ import { ApiException } from '@/common/exceptions';
 import { Result, TokenPayload } from '@/common/interfaces';
 import { ElConfigService } from '@/common/services';
 import { CryptoUtil, success, TimeUtil } from '@/common/utils';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { UserEntity } from '../users/entity/user.entity';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dtos';
