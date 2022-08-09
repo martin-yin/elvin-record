@@ -3,6 +3,7 @@ import { success } from '@/common/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ApiEntity } from '../api/entity/api.entity';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RoleApiEntity } from './entity/role.api.entity';
 import { RoleEntity } from './entity/role.entity';
@@ -69,13 +70,13 @@ export class RoleService {
       };
     });
 
-    console.log(roleApis, 'roleApis');
     await this.roleApiRepository.save<RoleApiEntity>(
       this.roleApiRepository.create(roleApis),
     );
 
     return success('授权成功');
   }
+
   /**
    * 获取角色权限
    * @param id
@@ -83,6 +84,22 @@ export class RoleService {
   async getRoleDetail(id: number) {
     const menus = this.roleMenuRepository.findBy({ roleId: id });
     const api = this.roleApiRepository.findBy({ roleId: id });
+  }
+
+  /**
+   * 根据roleId 获取到当前角色的可访问 API
+   * @param id
+   * @returns
+   */
+  async getRoleApi(id: number) {
+    const apiIds = await this.roleApiRepository.query(
+      `select apiId  as id from ` + '`role-api`' + `where roleId = ${id}`,
+    );
+    return await this.roleApiRepository.query(
+      `SELECT path, method from api WHERE id in (${apiIds.map(
+        (api) => api.id,
+      )})`,
+    );
   }
 
   /**

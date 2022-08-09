@@ -1,5 +1,6 @@
+import { PermissionOptional } from '@/common/decorators';
 import { JwtAuthGuard } from '@/common/guards';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RoleService } from './role.service';
 
@@ -21,5 +22,11 @@ export class RoleController {
   @Post('saveRoleApis')
   async saveRoleApis(@Body() saveRoleApisDto: SaveRoleApisDto) {
     return await this.roleService.saveRoleApis(saveRoleApisDto);
+  }
+
+  @Get()
+  @PermissionOptional()
+  async get() {
+    await this.roleService.getRoleApi(1);
   }
 }
