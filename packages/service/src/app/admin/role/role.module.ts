@@ -1,4 +1,3 @@
-import { CommonModule } from '@/common';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleApiEntity } from './entity/role.api.entity';
@@ -9,10 +8,10 @@ import { RoleService } from './role.service';
 
 @Module({
   imports: [
-    CommonModule,
     TypeOrmModule.forFeature([RoleEntity, RoleMenuEntity, RoleApiEntity]),
   ],
   controllers: [RoleController],
   providers: [RoleService],
+  exports: [RoleService],
 })
 export class RoleModule {}

@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/entity/base.entity';
+import { BaseEntity } from '@/app/common/entity/base.entity';
 import { Column, Entity, Index, ManyToOne, DeepPartial } from 'typeorm';
 import { ResourceGroupEntity } from './resource.group.entity';
 

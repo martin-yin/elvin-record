@@ -6,13 +6,16 @@ import { Reflector } from '@nestjs/core';
 import { Redis } from 'ioredis';
 import * as _ from 'lodash';
 import { ApiException } from '../exceptions';
-import { PERMISSION_OPTIONAL_KEY_METADATA } from '../decorators';
+import { AuthService } from '@/app/admin/auth/auth.service';
+import { AUTHORIZE_KEY_METADATA } from '../constants';
+
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(
     private reflector: Reflector,
     private redisService: RedisService,
     private jwtService: JwtService,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -20,6 +23,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<any> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
+    const authorize = this.reflector.get<boolean>(
+      AUTHORIZE_KEY_METADATA,
+      context.getHandler(),
+    );
+
+    console.log(authorize, 'authorize');
+    if (authorize) {
+      return true;
+    }
 
     // 获取请求头里的访问令牌
     const authorization = request.headers.authorization || '';
@@ -38,13 +50,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (cacheToken && accessToken !== cacheToken) {
       throw new ApiException('您的账号在其他地方登录', HttpStatus.UNAUTHORIZED);
     }
-
-    const notNeedPerm = this.reflector.get<boolean>(
-      PERMISSION_OPTIONAL_KEY_METADATA,
-      context.getHandler(),
-    );
-    // 先写死做个测试。
-    if (request.originalUrl === '/api/role') {
+    const apis = await this.authService.getRoleApis(payload['userId']);
+    if (
+      !apis.some(
+        (item) =>
+          item.method === request.method && item.path === request.originalUrl,
+      )
+    ) {
       throw new ApiException('您没有权限访问该接口!', HttpStatus.UNAUTHORIZED);
     }
 

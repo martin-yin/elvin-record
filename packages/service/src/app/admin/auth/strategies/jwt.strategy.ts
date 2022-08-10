@@ -1,8 +1,8 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { TokenPayload } from '@/common/interfaces';
-import { ElConfigService } from '@/common/services';
+import { TokenPayload } from '@/app/common/interfaces';
+import { ElConfigService } from '@/app/common/services';
 import { UserEntity } from '../../users/entity/user.entity';
 import { UsersService } from '../../users/users.service';
 

@@ -1,11 +1,11 @@
-import { LocalAuthGuard, JwtRefreshGuard } from '@/common/guards';
-import { Result } from '@/common/interfaces';
 import { Controller, UseGuards, Req, Body, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dtos';
-
 import { Request } from 'express';
 import { UserEntity } from '../users/entity/user.entity';
+import { JwtRefreshGuard, LocalAuthGuard } from '@/app/common/guards';
+import { Result } from '@/app/common/interfaces';
+import { Authorize } from '@/app/common/guards/authorize.decorator';
 
 export interface RequestWithUser extends Request {
   user: UserEntity;
@@ -21,6 +21,7 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
+  @Authorize()
   @Post('login')
   async login(@Req() { user }: RequestWithUser): Promise<Result> {
     return await this.authService.login(user);

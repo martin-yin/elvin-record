@@ -1,6 +1,6 @@
 import { Entity, Column, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from '@/entity/base.entity';
+import { BaseEntity } from '@/app/common/entity/base.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -18,6 +18,9 @@ export class UserEntity extends BaseEntity {
 
   @Column({ default: '', comment: '头像' })
   avatar: string;
+
+  @Column({ default: 0, comment: '用户角色' })
+  roleId: number;
 
   @Column({
     default: '',

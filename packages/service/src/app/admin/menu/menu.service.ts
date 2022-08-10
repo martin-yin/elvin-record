@@ -9,4 +9,6 @@ export class MenuService {
     @InjectRepository(MenuEntity)
     private readonly menuRepository: Repository<MenuEntity>,
   ) {}
+
+  // async create() {}
 }

@@ -1,15 +1,16 @@
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Redis } from 'ioredis';
-import { ApiException } from '@/common/exceptions';
-import { Result, TokenPayload } from '@/common/interfaces';
-import { ElConfigService } from '@/common/services';
-import { CryptoUtil, success, TimeUtil } from '@/common/utils';
+import { ApiException } from '@/app/common/exceptions';
+import { Result, TokenPayload } from '@/app/common/interfaces';
+import { ElConfigService } from '@/app/common/services';
+import { CryptoUtil, success, TimeUtil } from '@/app/common/utils';
 import * as _ from 'lodash';
 import { UserEntity } from '../users/entity/user.entity';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dtos';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,7 @@ export class AuthService {
     private elConfigService: ElConfigService,
     private redisService: RedisService,
     private jwtService: JwtService,
+    private roleService: RoleService,
     private usersService: UsersService,
     private cryptoUtil: CryptoUtil,
     private timeUtil: TimeUtil,
@@ -168,5 +170,15 @@ export class AuthService {
   private async verifyPassword(hash: string, password: string): Promise<void> {
     if (!(await this.cryptoUtil.checkPassword(hash, password)))
       throw new ApiException('登录密码有误', HttpStatus.NOT_ACCEPTABLE);
+  }
+
+  /**
+   * 根据id 获取到角色的Api 权限
+   * @param id
+   * @returns
+   */
+  async getRoleApis(id: number) {
+    const userId = await this.usersService.getById(id);
+    return await this.roleService.getRoleApis(userId.roleId);
   }
 }

@@ -1,5 +1,5 @@
-import { DictionaryDetail } from '@/entity/dictionary.detail.entity';
-import { Dictionary } from '@/entity/dictionary.entity';
+import { DictionaryDetail } from '@/app/common/entity/dictionary.detail.entity';
+import { Dictionary } from '@/app/common/entity/dictionary.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

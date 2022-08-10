@@ -1,5 +1,5 @@
-import { ApiException } from '@/common/exceptions';
-import { success } from '@/common/utils';
+import { ApiException } from '@/app/common/exceptions';
+import { success } from '@/app/common/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -78,12 +78,26 @@ export class RoleService {
   }
 
   /**
-   * 获取角色权限
-   * @param id
+   * 获取用户Id 获取角色的
+   * @param roleId
    */
-  async getRoleDetail(id: number) {
-    const menus = this.roleMenuRepository.findBy({ roleId: id });
-    const api = this.roleApiRepository.findBy({ roleId: id });
+  async getRoleApis(roleId: number): Promise<
+    {
+      path: string;
+      method: string;
+    }[]
+  > {
+    const apiIds = await this.roleApiRepository.query(
+      `select apiId  as id from ` + '`role-api`' + `where roleId = ${roleId}`,
+    );
+    if (apiIds.length === 0) {
+      return [];
+    }
+    return await this.roleApiRepository.query(
+      `SELECT path, method from api WHERE id in (${apiIds.map(
+        (api) => api.id,
+      )})`,
+    );
   }
 
   /**

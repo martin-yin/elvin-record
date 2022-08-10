@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DictionaryDetail } from '@/entity/dictionary.detail.entity';
+import { DictionaryDetail } from '@/app/common/entity/dictionary.detail.entity';
 import { Repository } from 'typeorm';
 import { DictionaryService } from '../dictionary/dictionary.service';
 import { CreateDictionaryDetailDto } from './dictionary-detail.dto';
-import { DataBaseService } from '@/common/services';
+import { DataBaseService } from '@/app/common/services';
 
 @Injectable()
 export class DictionaryDetailService extends DataBaseService<DictionaryDetail> {

@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/entity/base.entity';
+import { BaseEntity } from '@/app/common/entity/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity({
@@ -22,7 +22,7 @@ export class MenuEntity extends BaseEntity {
   @Column({ type: 'tinyint', default: 0, comment: '菜单类型' })
   type: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   icon: string;
 
   @Column({ type: 'int', default: 0, nullable: true })
