@@ -27,8 +27,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       AUTHORIZE_KEY_METADATA,
       context.getHandler(),
     );
-
-    console.log(authorize, 'authorize');
+    // 设置了装饰器直接放开权限
     if (authorize) {
       return true;
     }

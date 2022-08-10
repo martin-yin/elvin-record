@@ -3,7 +3,6 @@ import { success } from '@/app/common/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ApiEntity } from '../api/entity/api.entity';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RoleApiEntity } from './entity/role.api.entity';
 import { RoleEntity } from './entity/role.entity';
