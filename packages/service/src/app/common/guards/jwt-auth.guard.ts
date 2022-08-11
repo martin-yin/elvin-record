@@ -50,6 +50,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new ApiException('您的账号在其他地方登录', HttpStatus.UNAUTHORIZED);
     }
     const apis = await this.authService.getRoleApis(payload['userId']);
+
     if (
       !apis.some(
         (item) =>

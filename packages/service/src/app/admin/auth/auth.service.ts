@@ -177,7 +177,7 @@ export class AuthService {
    * @param id
    * @returns
    */
-  async getRoleApis(id: number) {
+  async validatePerm(id: number) {
     const userId = await this.usersService.getById(id);
     return await this.roleService.getRoleApis(userId.roleId);
   }

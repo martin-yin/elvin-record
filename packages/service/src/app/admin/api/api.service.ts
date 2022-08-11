@@ -41,7 +41,7 @@ export class ApiService {
 
   /**
    * 修改Api
-   * @param param0
+   * @param param
    * @returns
    */
   async edit({ id, path, method, description }: EditApiDto): Promise<Result> {
@@ -63,5 +63,38 @@ export class ApiService {
       );
     }
     return success('修改Api成功', api);
+  }
+
+  /**
+   * 删除用户
+   *
+   * @param id 用户ID
+   */
+  async remove(id: number): Promise<void> {
+    const existing = await this.apiRepository.findOneBy({ id });
+    if (!existing)
+      throw new ApiException(`删除失败，ID 为 '${id}' 的API不存在`, 404);
+    await this.apiRepository.remove(existing);
+  }
+
+  /**
+   * 获取所有用户
+   */
+  async getAll(): Promise<Result> {
+    const users = await this.apiRepository.find();
+    if (users) return success('获取所有Api成功', users);
+  }
+
+  /**
+   * 获取单个APi
+   */
+  async getOne(id: number): Promise<Result> {
+    const user = await this.apiRepository.findOne({ where: { id } });
+
+    if (user) {
+      return success('获取Api成功', user);
+    } else {
+      throw new ApiException(`获取失败，ID 为 '${id}' 的Api不存在`, 404);
+    }
   }
 }
