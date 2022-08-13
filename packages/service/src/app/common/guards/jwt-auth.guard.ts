@@ -6,10 +6,12 @@ import { Reflector } from '@nestjs/core';
 import { Redis } from 'ioredis';
 import * as _ from 'lodash';
 import { ApiException } from '../exceptions';
+import { AUTHORIZE_KEY_METADATA } from '../constants';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(
+    private reflector: Reflector,
     private redisService: RedisService,
     private jwtService: JwtService,
   ) {
@@ -19,6 +21,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<any> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
+
+    const permissionList = this.reflector.get<
+      Array<string | Array<string | null>>
+    >(AUTHORIZE_KEY_METADATA, context.getHandler());
+    if (!permissionList) {
+      return true;
+    }
 
     // 获取请求头里的访问令牌
     const authorization = request.headers.authorization || '';
@@ -32,6 +41,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     // 获取缓存令牌
     const client: Redis = this.redisService.getClient();
     const cacheToken = await client.get(payload['userId']);
+
     request['userId'] = payload['userId'];
 
     // 当cacheToken存在并且与访问令牌不匹配

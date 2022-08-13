@@ -16,8 +16,8 @@ export class MenuService {
   ) {}
 
   /**
-   * 添加Api
-   * @param createApiDto
+   * 添加菜单
+   * @param createMenuDto
    * @returns
    */
   async create(createMenuDto: CreateMenuDto) {
@@ -29,7 +29,7 @@ export class MenuService {
       );
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
-        throw new ApiException('Api 已经存在', HttpStatus.CONFLICT);
+        throw new ApiException('菜单已经存在', HttpStatus.CONFLICT);
       throw new ApiException(
         '发生了一些错误',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -74,7 +74,7 @@ export class MenuService {
       );
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
-        throw new ApiException('Api 已经存在', HttpStatus.CONFLICT);
+        throw new ApiException('菜单 已经存在', HttpStatus.CONFLICT);
       throw new ApiException(
         '发生了一些错误',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -84,7 +84,7 @@ export class MenuService {
   }
 
   /**
-   * 删除用户
+   * 删除菜单
    *
    * @param id 用户ID
    */
@@ -96,21 +96,21 @@ export class MenuService {
   }
 
   /**
-   * 获取所有用户
+   * 获取所有菜单
    */
   async getAll(): Promise<Result> {
-    const users = await this.menuRepository.find();
-    if (users) return success('获取所有Api成功', users);
+    const menuList = await this.menuRepository.find();
+    if (menuList) return success('获取所有菜单成功', menuList);
   }
 
   /**
    * 获取单个APi
    */
   async getOne(id: number): Promise<Result> {
-    const user = await this.menuRepository.findOne({ where: { id } });
+    const menu = await this.menuRepository.findOne({ where: { id } });
 
-    if (user) {
-      return success('获取Api成功', user);
+    if (menu) {
+      return success('获取菜单成功', menu);
     } else {
       throw new ApiException(`获取失败，ID 为 '${id}' 的菜单不存在`, 404);
     }

@@ -1,38 +1,23 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { AuthService } from '@/app/admin/auth/auth.service';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AUTHORIZE_KEY_METADATA } from '../constants';
-import { ApiException } from '../exceptions';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector, private authService: AuthService) {}
 
   canActivate(context: ExecutionContext): boolean {
     const { userId } = context.switchToHttp().getRequest();
-
-    const authorize = this.reflector.get<boolean>(
-      AUTHORIZE_KEY_METADATA,
-      context.getHandler(),
-    );
-    // 设置了装饰器直接放开权限
-
-    console.log(authorize, '=========');
-    if (authorize) {
+    const permissionList = this.reflector.get<
+      Array<string | Array<string | null>>
+    >(AUTHORIZE_KEY_METADATA, context.getHandler());
+    // 不存在的权限直接放行
+    if (!permissionList) {
       return true;
     }
+    this.authService.validatePerm(permissionList, userId);
 
-    if (!userId) {
-      throw new ApiException(
-        '您没有访问该接口的权限!',
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-    console.log(userId, 'userId=======================');
     return true;
   }
 }

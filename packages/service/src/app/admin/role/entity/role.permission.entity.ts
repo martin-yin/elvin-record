@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-  name: 'role-api',
+  name: 'role-permission',
 })
-export class RoleApiEntity {
+export class RolePermissionEntity {
   @Column()
   @PrimaryGeneratedColumn({
     type: 'bigint',
@@ -15,5 +15,5 @@ export class RoleApiEntity {
   roleId: number;
 
   @Column()
-  apiId: number;
+  permissionId: number;
 }

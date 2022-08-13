@@ -5,19 +5,19 @@ export class CreateMenuDto {
   @IsOptional()
   readonly parentId: number;
 
-  @IsString({ message: '节点名称必须是一个字符串' })
-  @IsNotEmpty({ message: '节点名称不能为空' })
+  @IsString({ message: '菜单名称必须是一个字符串' })
+  @IsNotEmpty({ message: '菜单名称不能为空' })
   readonly name: string;
 
-  @IsString({ message: '节点路由必须是一个字符串' })
-  @IsNotEmpty({ message: '节点路由不能为空' })
+  @IsString({ message: '菜单路由必须是一个字符串' })
+  @IsNotEmpty({ message: '菜单路由不能为空' })
   readonly router: string;
 
-  readonly perms: string;
-  readonly icon: string;
-  readonly sort: number;
   @IsString({ message: '文件路径必须是一个字符串' })
   @IsNotEmpty({ message: '文件路径不能为空' })
   readonly viewPath: string;
+  readonly perms: string;
+  readonly icon: string;
+  readonly sort: number;
   readonly keepalive: boolean;
 }

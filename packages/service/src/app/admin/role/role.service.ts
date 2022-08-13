@@ -4,9 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
-import { RoleApiEntity } from './entity/role.api.entity';
+import { RolePermissionEntity } from './entity/role.permission.entity';
 import { RoleEntity } from './entity/role.entity';
 import { RoleMenuEntity } from './entity/role.menu.entity';
+import { Result } from '@/app/common/interfaces';
 
 @Injectable()
 export class RoleService {
@@ -17,8 +18,8 @@ export class RoleService {
     @InjectRepository(RoleMenuEntity)
     private readonly roleMenuRepository: Repository<RoleMenuEntity>,
 
-    @InjectRepository(RoleApiEntity)
-    private readonly roleApiRepository: Repository<RoleApiEntity>,
+    @InjectRepository(RolePermissionEntity)
+    private readonly rolePermissionRepository: Repository<RolePermissionEntity>,
   ) {}
 
   /**
@@ -62,41 +63,41 @@ export class RoleService {
    */
   async saveRoleApis({ id, apis }: SaveRoleApisDto) {
     const apiIds = apis.split(',');
-    const roleApis: Partial<RoleApiEntity>[] = apiIds.map((apiId) => {
+    const roleApis: Partial<RolePermissionEntity>[] = apiIds.map((apiId) => {
       return {
         roleId: id,
         apiId: +apiId,
       };
     });
 
-    await this.roleApiRepository.save<RoleApiEntity>(
-      this.roleApiRepository.create(roleApis),
+    await this.rolePermissionRepository.save<RolePermissionEntity>(
+      this.rolePermissionRepository.create(roleApis),
     );
 
     return success('授权成功');
   }
 
   /**
-   * 获取用户Id 获取角色的
+   * 获取用户Id 获取角色的许可
    * @param roleId
    */
-  async getRoleApis(roleId: number): Promise<
-    {
-      path: string;
-      method: string;
-    }[]
-  > {
-    const apiIds = await this.roleApiRepository.query(
-      `select apiId  as id from ` + '`role-api`' + `where roleId = ${roleId}`,
+  async getRolePermissionList(roleId: number): Promise<string[]> {
+    const permissionIds = await this.rolePermissionRepository.query(
+      `select permissionId  as id from ` +
+        '`role-permission`' +
+        `where roleId = ${roleId}`,
     );
-    if (apiIds.length === 0) {
+    if (permissionIds.length === 0) {
       return [];
     }
-    return await this.roleApiRepository.query(
-      `SELECT path, method from api WHERE id in (${apiIds.map(
-        (api) => api.id,
+
+    const rolePermissionList = await this.rolePermissionRepository.query(
+      `SELECT name, code from permission WHERE id in (${permissionIds.map(
+        (permission) => permission.id,
       )})`,
     );
+
+    return rolePermissionList.map((rolePermission) => rolePermission.code);
   }
 
   /**
@@ -104,15 +105,23 @@ export class RoleService {
    * @param id
    * @returns
    */
-  async getRoleApi(id: number) {
-    const apiIds = await this.roleApiRepository.query(
+  async getRoleMenuList(id: number) {
+    const apiIds = await this.rolePermissionRepository.query(
       `select apiId  as id from ` + '`role-api`' + `where roleId = ${id}`,
     );
-    return await this.roleApiRepository.query(
+    return await this.rolePermissionRepository.query(
       `SELECT path, method from api WHERE id in (${apiIds.map(
         (api) => api.id,
       )})`,
     );
+  }
+
+  /**
+   * 获取所有角色
+   */
+  async getAll(): Promise<Result> {
+    const menuList = await this.roleRepository.find();
+    if (menuList) return success('获取所有角色成功', menuList);
   }
 
   /**

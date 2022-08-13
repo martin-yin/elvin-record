@@ -9,4 +9,4 @@ import { PermissionService } from './permission.service';
   providers: [PermissionService],
   exports: [PermissionService],
 })
-export class RoleModule {}
+export class PermissionModule {}
