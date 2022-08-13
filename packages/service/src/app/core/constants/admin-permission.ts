@@ -21,3 +21,17 @@ export const AUTHORIZEROLEGET = 'admin:role:get';
 // user 控制器
 export const AUTHORIZEUSERGET = 'admin:user:get';
 export const AUTHORIZEUSERGETALL = 'admin:user:getAll';
+
+// dictionary 控制器 AUTHORIZEDICTIONARY
+export const AUTHORIZEDICTIONARYCREATE = 'admin:dictionary:create';
+export const AUTHORIZEDICTIONARYGETAll = 'admin:dictionary:getAll';
+export const AUTHORIZEDICTIONARYGET = 'admin:dictionary:get';
+export const AUTHORIZEDICTIONARYEDIT = 'admin:dictionary:edit';
+export const AUTHORIZEDICTIONARYDELETE = 'admin:dictionary:delete';
+
+// dictionary-detail 控制器
+export const AUTHORIZEDICTIONARYDETAILCREATE = 'admin:dictionary-detail:create';
+export const AUTHORIZEDICTIONARYDETAILGETAll = 'admin:dictionary-detail:getAll';
+export const AUTHORIZEDICTIONARYDETAILGET = 'admin:dictionary-detail:get';
+export const AUTHORIZEDICTIONARYDETAILEDIT = 'admin:dictionary-detail:edit';
+export const AUTHORIZEDICTIONARYDETAILDELETE = 'admin:dictionary-detail:delete';
