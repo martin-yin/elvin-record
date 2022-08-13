@@ -40,19 +40,22 @@ export class PermissionController {
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
   ): Promise<Result> {
-    return await this.permissionService.create(createPermissionDto);
+    return await this.permissionService.baseCreate(createPermissionDto);
   }
 
   @Permission(AUTHORIZEPERMISSIONEDIT)
-  @Put()
-  async edit(@Body() editPermissionDto: EditPermissionDto): Promise<Result> {
-    return await this.permissionService.edit(editPermissionDto);
+  @Put(':id')
+  async edit(
+    @Param('id') id: number,
+    @Body() editPermissionDto: EditPermissionDto,
+  ): Promise<Result> {
+    return await this.permissionService.baseEdit(id, editPermissionDto);
   }
 
   @Permission(AUTHORIZEPERMISSIONDELETE)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<Result> {
-    await this.permissionService.remove(id);
+    await this.permissionService.baseDelete(id);
     return success('删除Api成功');
   }
 }

@@ -27,7 +27,7 @@ export class DictionaryDetailController {
   @Permission(AUTHORIZEDICTIONARYDETAILCREATE)
   @Post()
   create(@Body() createDictionary: CreateDictionaryDetailDto) {
-    return this.dictionaryDetailService.create(createDictionary);
+    return this.dictionaryDetailService.baseCreate(createDictionary);
   }
 
   @Permission(AUTHORIZEDICTIONARYDETAILGET)
@@ -42,7 +42,7 @@ export class DictionaryDetailController {
     @Param('id') id: string,
     @Body() updateDictionary: EditDictionaryDetailDto,
   ) {
-    return this.dictionaryDetailService.baseUpdate(+id, updateDictionary);
+    return this.dictionaryDetailService.baseEdit(+id, updateDictionary);
   }
 
   @Permission(AUTHORIZEDICTIONARYDETAILDELETE)

@@ -1,20 +1,17 @@
 import { ApiException } from '@/app/core/exceptions';
+import { Result } from '@/app/core/interfaces';
+import { DataBaseService } from '@/app/core/services';
 import { success } from '@/app/core/utils';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  CreateRoleDto,
-  SaveRoleMenusDto,
-  SaveRolePermissionListDto,
-} from './dtos';
-import { RolePermissionEntity } from './entity/role.permission.entity';
+import { SaveRoleMenusDto, SaveRolePermissionListDto } from './dtos';
 import { RoleEntity } from './entity/role.entity';
 import { RoleMenuEntity } from './entity/role.menu.entity';
-import { Result } from '@/app/core/interfaces';
+import { RolePermissionEntity } from './entity/role.permission.entity';
 
 @Injectable()
-export class RoleService {
+export class RoleService extends DataBaseService<RoleEntity> {
   constructor(
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
@@ -24,27 +21,8 @@ export class RoleService {
 
     @InjectRepository(RolePermissionEntity)
     private readonly rolePermissionRepository: Repository<RolePermissionEntity>,
-  ) {}
-
-  /**
-   * 创建用户
-   * @param createRoleDto 用户信息
-   */
-  async create(createRoleDto: CreateRoleDto): Promise<Result> {
-    let role: RoleEntity;
-    try {
-      role = await this.roleRepository.save<RoleEntity>(
-        this.roleRepository.create(createRoleDto),
-      );
-    } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY')
-        throw new ApiException('菜单已经存在', HttpStatus.CONFLICT);
-      throw new ApiException(
-        '发生了一些错误',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-    return success('新增成功', role);
+  ) {
+    super(roleRepository);
   }
 
   /**

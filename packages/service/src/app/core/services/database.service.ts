@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 import {
   DeepPartial,
   DeleteResult,
@@ -7,6 +7,9 @@ import {
   UpdateResult,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { ApiException } from '../exceptions';
+import { Result } from '../interfaces';
+import { success } from '../utils';
 
 export interface FindWhere {
   readonly [key: string]: string | number | boolean;
@@ -23,15 +26,52 @@ export abstract class DataBaseService<T> {
     return record;
   }
 
-  async baseCreate(entity: DeepPartial<T>): Promise<T> {
-    const obj = this.repository.create(entity);
+  async baseCreate(entity: DeepPartial<T>): Promise<Result> {
+    let ojb: T;
     try {
-      return await this.repository.save(obj as any);
-    } catch (err) {
-      throw new BadRequestException(err);
+      ojb = await this.repository.save<T>(this.repository.create(entity));
+    } catch (error) {
+      if (error.code === 'ER_DUP_ENTRY')
+        throw new ApiException('数据已经存在', HttpStatus.CONFLICT);
+      throw new ApiException(
+        '发生了一些错误',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
+
+    return success('新增成功', ojb);
   }
 
+  async baseEdit(id: number, entity: DeepPartial<T>) {
+    let obj: T;
+
+    const existing = await this.repository.findOne(id as any);
+    if (!existing)
+      throw new ApiException(`修改失败，ID 为 '${id}' 数据不存在`, 404);
+
+    try {
+      obj = await this.repository.save<T>(
+        this.repository.merge(existing, {
+          ...entity,
+        }),
+      );
+    } catch (error) {
+      if (error.code === 'ER_DUP_ENTRY')
+        throw new ApiException('数据已经存在', HttpStatus.CONFLICT);
+      throw new ApiException(
+        '发生了一些错误',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return success('修改数据成功', obj);
+  }
+
+  /**
+   * 删除数据
+   * @param criteria
+   * @param softDelete
+   * @returns
+   */
   async baseDelete(
     criteria: string | number,
     softDelete = true,

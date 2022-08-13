@@ -11,7 +11,7 @@ export class RoleController {
   @Permission(AUTHORIZEROLECREATE)
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto) {
-    return await this.roleService.create(createRoleDto);
+    return await this.roleService.baseCreate(createRoleDto);
   }
 
   // @Permission(AUTHORIZEROLESAVEROLEMENUS)

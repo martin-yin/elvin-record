@@ -7,14 +7,17 @@ import * as _ from 'lodash';
 import { CryptoUtil, success } from '@/app/core/utils';
 import { ApiException } from '@/app/core/exceptions';
 import { Result, TokenPayload } from '@/app/core/interfaces';
+import { DataBaseService } from '@/app/core/services';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends DataBaseService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
     private cryptoUtil: CryptoUtil,
-  ) {}
+  ) {
+    super(usersRepository);
+  }
 
   /**
    * 创建用户
@@ -29,17 +32,17 @@ export class UsersService {
     return _.omit(user, ['password', 'refreshToken']);
   }
 
-  /**
-   * 删除用户
-   *
-   * @param id 用户ID
-   */
-  async remove(id: number): Promise<void> {
-    const existing = await this.usersRepository.findOneBy({ id });
-    if (!existing)
-      throw new ApiException(`删除失败，ID 为 '${id}' 的用户不存在`, 404);
-    await this.usersRepository.remove(existing);
-  }
+  // /**
+  //  * 删除用户
+  //  *
+  //  * @param id 用户ID
+  //  */
+  // async remove(id: number): Promise<void> {
+  //   const existing = await this.usersRepository.findOneBy({ id });
+  //   if (!existing)
+  //     throw new ApiException(`删除失败，ID 为 '${id}' 的用户不存在`, 404);
+  //   await this.usersRepository.remove(existing);
+  // }
 
   /**
    * 获取所有用户

@@ -39,19 +39,22 @@ export class MenuController {
   @Permission(AUTHORIZEMENUCREATE)
   @Post()
   async create(@Body() createMenuDto: CreateMenuDto): Promise<Result> {
-    return await this.menuService.create(createMenuDto);
+    return await this.menuService.baseCreate(createMenuDto);
   }
 
   @Permission(AUTHORIZEMENUEDIT)
-  @Put()
-  async edit(@Body() editMenuDto: EditMenuDto): Promise<Result> {
-    return await this.menuService.edit(editMenuDto);
+  @Put(':id')
+  async edit(
+    @Param('id') id: string,
+    @Body() editMenuDto: EditMenuDto,
+  ): Promise<Result> {
+    return await this.menuService.baseEdit(editMenuDto.id, editMenuDto);
   }
 
   @Permission(AUTHORIZEMENUDELETE)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<Result> {
-    await this.menuService.remove(id);
+    await this.menuService.baseDelete(id);
     return success('删除Api成功');
   }
 }

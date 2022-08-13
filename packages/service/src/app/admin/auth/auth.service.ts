@@ -187,8 +187,6 @@ export class AuthService {
     );
 
     const orPermissionList: string[] = [];
-
-    console.log(permissionList, 'permissionList');
     const andPermissionList = permissionList.filter((perm) => {
       if (typeof perm === 'string') {
         orPermissionList.push(perm);

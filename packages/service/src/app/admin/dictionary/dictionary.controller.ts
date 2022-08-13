@@ -28,7 +28,7 @@ export class DictionaryController {
   @Permission(AUTHORIZEDICTIONARYCREATE)
   @Post()
   create(@Body() createDictionary: CreateDictionaryDto) {
-    return this.dictionaryService.create(createDictionary);
+    return this.dictionaryService.baseCreate(createDictionary);
   }
 
   @Permission(AUTHORIZEDICTIONARYGETAll)
@@ -46,7 +46,7 @@ export class DictionaryController {
   @Permission(AUTHORIZEDICTIONARYEDIT)
   @Patch(':id')
   edit(@Param('id') id: string, @Body() updateDictionary: EditDictionaryDto) {
-    return this.dictionaryService.baseUpdate(+id, updateDictionary);
+    return this.dictionaryService.baseEdit(+id, updateDictionary);
   }
 
   @Permission(AUTHORIZEDICTIONARYDELETE)
