@@ -34,4 +34,4 @@ import {
     ElThrottlerModule,
   ],
 })
-export class CommonModule {}
+export class CoreModule {}

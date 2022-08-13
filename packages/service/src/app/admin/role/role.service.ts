@@ -1,5 +1,5 @@
-import { ApiException } from '@/app/common/exceptions';
-import { success } from '@/app/common/utils';
+import { ApiException } from '@/app/core/exceptions';
+import { success } from '@/app/core/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,7 +7,7 @@ import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RolePermissionEntity } from './entity/role.permission.entity';
 import { RoleEntity } from './entity/role.entity';
 import { RoleMenuEntity } from './entity/role.menu.entity';
-import { Result } from '@/app/common/interfaces';
+import { Result } from '@/app/core/interfaces';
 
 @Injectable()
 export class RoleService {

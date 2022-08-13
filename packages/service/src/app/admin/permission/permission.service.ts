@@ -1,6 +1,6 @@
-import { ApiException } from '@/app/common/exceptions';
-import { Result } from '@/app/common/interfaces';
-import { success } from '@/app/common/utils';
+import { ApiException } from '@/app/core/exceptions';
+import { Result } from '@/app/core/interfaces';
+import { success } from '@/app/core/utils';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

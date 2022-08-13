@@ -5,15 +5,15 @@ import { AppModule } from './app/app.module';
 import {
   HttpExceptionFilter,
   QueryFailedExceptionFilter,
-} from './app/common/filters';
-import { AllExceptionsFilter } from './app/common/filters/all-exception.filter';
+} from './app/core/filters';
+import { AllExceptionsFilter } from './app/core/filters/all-exception.filter';
 import {
   LoggingInterceptor,
   TransformInterceptor,
-} from './app/common/interceptors';
-import { ElConfigService, ElLoggerService } from './app/common/services';
-import { ColorUtil } from './app/common/utils';
-import { TimeUtil } from './app/common/utils/time.util';
+} from './app/core/interceptors';
+import { ElConfigService, ElLoggerService } from './app/core/services';
+import { ColorUtil } from './app/core/utils';
+import { TimeUtil } from './app/core/utils/time.util';
 import helmet from 'helmet';
 
 async function bootstrap() {

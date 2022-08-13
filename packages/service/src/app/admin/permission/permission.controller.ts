@@ -1,5 +1,7 @@
-import { Result } from '@/app/common/interfaces';
-import { success } from '@/app/common/utils';
+import { PERISSIONROLEGET } from '@/app/core/constants';
+import { Permission } from '@/app/core/decorators/permission.decorator';
+import { Result } from '@/app/core/interfaces';
+import { success } from '@/app/core/utils';
 import {
   Body,
   Controller,
@@ -15,6 +17,7 @@ import { PermissionService } from './permission.service';
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
+  @Permission(PERISSIONROLEGET)
   @Get()
   async getAll(): Promise<Result> {
     return await this.permissionService.getAll();

@@ -4,9 +4,9 @@ import { Repository, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dtos';
 import { UserEntity } from './entity/user.entity';
 import * as _ from 'lodash';
-import { CryptoUtil, success } from '@/app/common/utils';
-import { ApiException } from '@/app/common/exceptions';
-import { Result, TokenPayload } from '@/app/common/interfaces';
+import { CryptoUtil, success } from '@/app/core/utils';
+import { ApiException } from '@/app/core/exceptions';
+import { Result, TokenPayload } from '@/app/core/interfaces';
 
 @Injectable()
 export class UsersService {

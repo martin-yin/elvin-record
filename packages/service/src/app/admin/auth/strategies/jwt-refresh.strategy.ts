@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 
 import { Request } from 'express';
-import { TokenPayload } from '@/app/common/interfaces';
-import { ElConfigService } from '@/app/common/services';
+import { TokenPayload } from '@/app/core/interfaces';
+import { ElConfigService } from '@/app/core/services';
 import { UserEntity } from '../../users/entity/user.entity';
 import { UsersService } from '../../users/users.service';
 

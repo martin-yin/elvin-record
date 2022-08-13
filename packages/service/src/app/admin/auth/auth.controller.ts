@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dtos';
 import { Request } from 'express';
 import { UserEntity } from '../users/entity/user.entity';
-import { JwtRefreshGuard, LocalAuthGuard } from '@/app/common/guards';
-import { Result } from '@/app/common/interfaces';
+import { JwtRefreshGuard, LocalAuthGuard } from '@/app/core/guards';
+import { Result } from '@/app/core/interfaces';
 
 export interface RequestWithUser extends Request {
   user: UserEntity;

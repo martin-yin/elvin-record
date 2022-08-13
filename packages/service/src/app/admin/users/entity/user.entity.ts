@@ -1,6 +1,6 @@
 import { Entity, Column, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from '@/app/common/entity/base.entity';
+import { BaseEntity } from '@/app/core/entity/base.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {

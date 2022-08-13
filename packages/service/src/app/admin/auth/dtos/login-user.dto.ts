@@ -1,4 +1,4 @@
-import { ApiCode } from '@/app/common/enums';
+import { ApiCode } from '@/app/core/enums';
 import { IsNotEmpty } from 'class-validator';
 
 export class LoginUserDto {

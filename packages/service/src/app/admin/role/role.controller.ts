@@ -2,8 +2,8 @@ import {
   PERISSIONROLECREATE,
   PERISSIONROLEGET,
   PERISSIONROLESAVEROLEAPIS,
-} from '@/app/common/constants';
-import { Permission } from '@/app/common/decorators/permission.decorator';
+} from '@/app/core/constants';
+import { Permission } from '@/app/core/decorators/permission.decorator';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RoleService } from './role.service';

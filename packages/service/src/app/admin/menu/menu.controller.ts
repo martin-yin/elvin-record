@@ -1,5 +1,5 @@
-import { Result } from '@/app/common/interfaces';
-import { success } from '@/app/common/utils';
+import { Result } from '@/app/core/interfaces';
+import { success } from '@/app/core/utils';
 import {
   Body,
   Controller,

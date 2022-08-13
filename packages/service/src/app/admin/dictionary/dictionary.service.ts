@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Dictionary } from '@/app/common/entity/dictionary.entity';
+import { Dictionary } from '@/app/core/entity/dictionary.entity';
 import { Repository } from 'typeorm';
 import { GetDictionaryDto } from './dictionary.dto';
-import { DataBaseService } from '@/app/common/services';
+import { DataBaseService } from '@/app/core/services';
 
 @Injectable()
 export class DictionaryService extends DataBaseService<Dictionary> {
