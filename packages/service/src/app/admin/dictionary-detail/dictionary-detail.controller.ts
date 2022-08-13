@@ -7,11 +7,9 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import {
-  CreateDictionaryDetailDto,
-  UpdateDictionaryDetailDto,
-} from './dictionary-detail.dto';
+
 import { DictionaryDetailService } from './dictionary-detail.service';
+import { CreateDictionaryDetailDto, EditDictionaryDetailDto } from './dtos';
 
 @Controller('dictionary-detail')
 export class DictionaryDetailController {
@@ -21,7 +19,7 @@ export class DictionaryDetailController {
 
   @Post()
   create(@Body() createDictionary: CreateDictionaryDetailDto) {
-    return this.dictionaryDetailService.createDetail(createDictionary);
+    return this.dictionaryDetailService.create(createDictionary);
   }
 
   @Get(':id')
@@ -30,15 +28,15 @@ export class DictionaryDetailController {
   }
 
   @Patch(':id')
-  update(
+  edit(
     @Param('id') id: string,
-    @Body() updateDictionary: UpdateDictionaryDetailDto,
+    @Body() updateDictionary: EditDictionaryDetailDto,
   ) {
-    return this.dictionaryDetailService.update(+id, updateDictionary);
+    return this.dictionaryDetailService.baseUpdate(+id, updateDictionary);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.dictionaryDetailService.delete(+id);
+    return this.dictionaryDetailService.baseDelete(+id);
   }
 }

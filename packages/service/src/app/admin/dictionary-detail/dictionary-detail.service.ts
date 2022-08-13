@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DictionaryDetail } from '@/app/core/entity/dictionary.detail.entity';
+import { DictionaryDetail } from '@/app/admin/dictionary-detail/entity/dictionary.detail.entity';
 import { Repository } from 'typeorm';
 import { DictionaryService } from '../dictionary/dictionary.service';
-import { CreateDictionaryDetailDto } from './dictionary-detail.dto';
 import { DataBaseService } from '@/app/core/services';
+import { CreateDictionaryDetailDto } from './dtos';
 
 @Injectable()
 export class DictionaryDetailService extends DataBaseService<DictionaryDetail> {
@@ -16,7 +16,7 @@ export class DictionaryDetailService extends DataBaseService<DictionaryDetail> {
     super(dictionaryDetailRepository);
   }
 
-  async createDetail(createDictionaryDetailDto: CreateDictionaryDetailDto) {
+  async create(createDictionaryDetailDto: CreateDictionaryDetailDto) {
     const dictionaryDetail = new DictionaryDetail();
     dictionaryDetail.label = createDictionaryDetailDto.label;
     dictionaryDetail.value = createDictionaryDetailDto.value;
@@ -29,6 +29,7 @@ export class DictionaryDetailService extends DataBaseService<DictionaryDetail> {
 
   async detail(id: number) {
     return await this.dictionaryDetailRepository.findOne({
+      where: { id },
       relations: ['dictionary'],
     });
   }

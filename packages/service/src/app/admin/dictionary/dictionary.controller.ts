@@ -8,12 +8,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import {
-  CreateDictionaryDto,
-  GetDictionaryDto,
-  UpdateDictionaryDto,
-} from './dictionary.dto';
+
 import { DictionaryService } from './dictionary.service';
+import { CreateDictionaryDto, GetDictionaryDto } from './dtos';
+import { EditDictionaryDto } from './dtos/edit-dictionary.dto';
 
 @Controller('dictionary')
 export class DictionaryController {
@@ -25,8 +23,8 @@ export class DictionaryController {
   }
 
   @Get()
-  list(@Query() getDictionary: GetDictionaryDto) {
-    return this.dictionaryService.list(getDictionary);
+  getAll(@Query() getDictionary: GetDictionaryDto) {
+    return this.dictionaryService.getAll(getDictionary);
   }
 
   @Get(':id')
@@ -35,15 +33,12 @@ export class DictionaryController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDictionary: UpdateDictionaryDto,
-  ) {
-    return this.dictionaryService.update(+id, updateDictionary);
+  edit(@Param('id') id: string, @Body() updateDictionary: EditDictionaryDto) {
+    return this.dictionaryService.baseUpdate(+id, updateDictionary);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.dictionaryService.delete(+id);
+    return this.dictionaryService.baseDelete(+id);
   }
 }

@@ -7,7 +7,7 @@ export class SaveRoleMenusDto {
   readonly menus: string;
 }
 
-export class SaveRoleApisDto {
+export class SaveRolePermissionListDto {
   readonly id: number;
-  readonly apis: string;
+  readonly permissionList: string;
 }

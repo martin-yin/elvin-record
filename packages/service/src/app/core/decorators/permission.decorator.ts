@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { AUTHORIZE_KEY_METADATA } from '../constants';
+import { AUTHORIZE_METADATA } from '../constants';
 
 export const Permission = (...perms: Array<string | Array<string | null>>) => {
   return (
@@ -13,6 +13,6 @@ export const Permission = (...perms: Array<string | Array<string | null>>) => {
       );
     }
 
-    SetMetadata(AUTHORIZE_KEY_METADATA, perms)(target, key, descriptor);
+    SetMetadata(AUTHORIZE_METADATA, perms)(target, key, descriptor);
   };
 };

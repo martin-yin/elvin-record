@@ -23,7 +23,7 @@ export abstract class DataBaseService<T> {
     return record;
   }
 
-  async create(entity: DeepPartial<T>): Promise<T> {
+  async baseCreate(entity: DeepPartial<T>): Promise<T> {
     const obj = this.repository.create(entity);
     try {
       return await this.repository.save(obj as any);
@@ -32,7 +32,7 @@ export abstract class DataBaseService<T> {
     }
   }
 
-  async delete(
+  async baseDelete(
     criteria: string | number,
     softDelete = true,
   ): Promise<DeleteResult | UpdateResult | T> {
@@ -42,13 +42,13 @@ export abstract class DataBaseService<T> {
     }
     if (softDelete) {
       entity.is_delete = 0;
-      return await this.update(criteria, entity);
+      return await this.baseUpdate(criteria, entity);
     } else {
       return await this.repository.delete(criteria);
     }
   }
 
-  async update(
+  async baseUpdate(
     id: string | number,
     partialEntity: QueryDeepPartialEntity<T>,
   ): Promise<UpdateResult | T> {

@@ -1,9 +1,13 @@
 import { ApiException } from '@/app/core/exceptions';
 import { success } from '@/app/core/utils';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
+import {
+  CreateRoleDto,
+  SaveRoleMenusDto,
+  SaveRolePermissionListDto,
+} from './dtos';
 import { RolePermissionEntity } from './entity/role.permission.entity';
 import { RoleEntity } from './entity/role.entity';
 import { RoleMenuEntity } from './entity/role.menu.entity';
@@ -26,13 +30,21 @@ export class RoleService {
    * 创建用户
    * @param createRoleDto 用户信息
    */
-  async create(createRoleDto: CreateRoleDto): Promise<Partial<RoleEntity>> {
-    const role: Partial<RoleEntity> =
-      await this.roleRepository.save<RoleEntity>(
+  async create(createRoleDto: CreateRoleDto): Promise<Result> {
+    let role: RoleEntity;
+    try {
+      role = await this.roleRepository.save<RoleEntity>(
         this.roleRepository.create(createRoleDto),
       );
-
-    return role;
+    } catch (error) {
+      if (error.code === 'ER_DUP_ENTRY')
+        throw new ApiException('菜单已经存在', HttpStatus.CONFLICT);
+      throw new ApiException(
+        '发生了一些错误',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return success('新增成功', role);
   }
 
   /**
@@ -40,7 +52,7 @@ export class RoleService {
    * @param saveRoleMenusDto
    * @returns
    */
-  async saveRoleMenus({ id, menus }: SaveRoleMenusDto) {
+  async saveRoleMenus({ id, menus }: SaveRoleMenusDto): Promise<Result> {
     const menusId = menus.split(',');
     const roleMenus: Partial<RoleMenuEntity>[] = menusId.map((menuId) => {
       return {
@@ -61,17 +73,21 @@ export class RoleService {
    * @param saveRoleMenusDto
    * @returns
    */
-  async saveRoleApis({ id, apis }: SaveRoleApisDto) {
-    const apiIds = apis.split(',');
-    const roleApis: Partial<RolePermissionEntity>[] = apiIds.map((apiId) => {
-      return {
-        roleId: id,
-        apiId: +apiId,
-      };
-    });
+  async saveRolePermissionList({
+    id,
+    permissionList,
+  }: SaveRolePermissionListDto): Promise<Result> {
+    const permissionListIds = permissionList.split(',');
+    const rolePermissionList: Partial<RolePermissionEntity>[] =
+      permissionListIds.map((permissionListId) => {
+        return {
+          roleId: id,
+          apiId: +permissionListId,
+        };
+      });
 
     await this.rolePermissionRepository.save<RolePermissionEntity>(
-      this.rolePermissionRepository.create(roleApis),
+      this.rolePermissionRepository.create(rolePermissionList),
     );
 
     return success('授权成功');
@@ -105,7 +121,7 @@ export class RoleService {
    * @param id
    * @returns
    */
-  async getRoleMenuList(id: number) {
+  async getRoleMenuList(id: number): Promise<Result> {
     const apiIds = await this.rolePermissionRepository.query(
       `select apiId  as id from ` + '`role-api`' + `where roleId = ${id}`,
     );

@@ -1,7 +1,7 @@
 import { AuthService } from '@/app/admin/auth/auth.service';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AUTHORIZE_KEY_METADATA } from '../constants';
+import { AUTHORIZE_METADATA } from '../constants';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -11,7 +11,7 @@ export class PermissionGuard implements CanActivate {
     const { userId } = context.switchToHttp().getRequest();
     const permissionList = this.reflector.get<
       Array<string | Array<string | null>>
-    >(AUTHORIZE_KEY_METADATA, context.getHandler());
+    >(AUTHORIZE_METADATA, context.getHandler());
     // 不存在的权限直接放行
     if (!permissionList) {
       return true;

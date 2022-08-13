@@ -6,7 +6,7 @@ import { Reflector } from '@nestjs/core';
 import { Redis } from 'ioredis';
 import * as _ from 'lodash';
 import { ApiException } from '../exceptions';
-import { AUTHORIZE_KEY_METADATA } from '../constants';
+import { AUTHORIZE_METADATA } from '../constants';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -24,7 +24,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     const permissionList = this.reflector.get<
       Array<string | Array<string | null>>
-    >(AUTHORIZE_KEY_METADATA, context.getHandler());
+    >(AUTHORIZE_METADATA, context.getHandler());
     if (!permissionList) {
       return true;
     }
