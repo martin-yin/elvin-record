@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from '../common/guards';
+import { PermissionGuard } from '../common/guards/permission.guard';
 import { ApiModule } from './api/api.module';
 import { AuthModule } from './auth/auth.module';
 import { MenuModule } from './menu/menu.module';
@@ -13,7 +13,7 @@ import { UsersModule } from './users/users.module';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: PermissionGuard,
     },
   ],
   exports: [],

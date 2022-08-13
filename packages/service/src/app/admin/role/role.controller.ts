@@ -1,11 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Permission } from '@/app/common/decorators/permission.decorator';
+import { JwtAuthGuard } from '@/app/common/guards';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateRoleDto, SaveRoleApisDto, SaveRoleMenusDto } from './dtos';
 import { RoleService } from './role.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @Permission(['admin:role:create'])
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto) {
     return await this.roleService.create(createRoleDto);

@@ -5,7 +5,6 @@ import { Request } from 'express';
 import { UserEntity } from '../users/entity/user.entity';
 import { JwtRefreshGuard, LocalAuthGuard } from '@/app/common/guards';
 import { Result } from '@/app/common/interfaces';
-import { Authorize } from '@/app/common/guards/authorize.decorator';
 
 export interface RequestWithUser extends Request {
   user: UserEntity;
@@ -21,7 +20,6 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Authorize()
   @Post('login')
   async login(@Req() { user }: RequestWithUser): Promise<Result> {
     return await this.authService.login(user);
