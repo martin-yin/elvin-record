@@ -5,32 +5,38 @@ import { Column, Entity } from 'typeorm';
   name: 'menu',
 })
 export class MenuEntity extends BaseEntity {
-  @Column({ name: 'parent_id', nullable: true, comment: '父节点ID' })
-  parentId: number;
-
   @Column({
-    comment: '节点名称',
+    comment: '菜单名称',
   })
   name: string;
 
-  @Column({ nullable: true, comment: '节点路由' })
+  @Column({ name: 'parent_id', nullable: true, comment: '上级菜单id' })
+  parentId: number;
+
+  @Column({ comment: '路由地址 or 访问地址' })
   router: string;
 
-  @Column({ nullable: true, comment: '权限' })
-  perms: string;
+  @Column({ comment: '组件名称' })
+  componentName: string;
 
-  @Column({ type: 'tinyint', default: 0, comment: '菜单类型' })
-  type: number;
+  @Column({ nullable: true, comment: '组件' })
+  component: string;
 
-  @Column({ nullable: true, default: '' })
+  @Column({ comment: '默认跳转地址' })
+  redirect: string;
+
+  @Column({ nullable: true, default: '', comment: '菜单图标' })
   icon: string;
+
+  @Column({ default: '', comment: '打开方式' })
+  internalOrExternal: string;
 
   @Column({ type: 'int', default: 0, nullable: true })
   sort: number;
 
-  @Column({ name: 'view_path', nullable: true, comment: '文件路径' })
-  viewPath: string;
-
-  @Column({ type: 'boolean', nullable: true, default: true })
+  @Column({ type: 'boolean', default: false })
   keepalive: boolean;
+
+  @Column({ type: 'boolean', default: false, comment: '是否显示' })
+  visible: boolean;
 }

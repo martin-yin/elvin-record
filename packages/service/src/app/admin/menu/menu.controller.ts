@@ -45,16 +45,16 @@ export class MenuController {
   @Permission(AUTHORIZEMENUEDIT)
   @Put(':id')
   async edit(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() editMenuDto: EditMenuDto,
   ): Promise<Result> {
-    return await this.menuService.baseEdit(editMenuDto.id, editMenuDto);
+    return await this.menuService.baseEdit(id, editMenuDto);
   }
 
   @Permission(AUTHORIZEMENUDELETE)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<Result> {
     await this.menuService.baseDelete(id);
-    return success('删除Api成功');
+    return success('删除菜单成功');
   }
 }

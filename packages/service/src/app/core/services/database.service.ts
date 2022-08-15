@@ -33,10 +33,7 @@ export abstract class DataBaseService<T> {
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
         throw new ApiException('数据已经存在', HttpStatus.CONFLICT);
-      throw new ApiException(
-        '发生了一些错误',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new ApiException('新增数据失败', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return success('新增成功', ojb);
@@ -58,10 +55,7 @@ export abstract class DataBaseService<T> {
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
         throw new ApiException('数据已经存在', HttpStatus.CONFLICT);
-      throw new ApiException(
-        '发生了一些错误',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new ApiException('修改数据失败', HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return success('修改数据成功', obj);
   }
@@ -78,13 +72,20 @@ export abstract class DataBaseService<T> {
   ): Promise<DeleteResult | UpdateResult | T> {
     const entity: any = await this.findOne(criteria);
     if (!entity) {
-      throw new BadRequestException(`没有查询到对应数据，无法删除!`);
+      throw new ApiException(
+        `没有查询到对应数据，无法删除!`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    if (softDelete) {
-      entity.is_delete = 0;
-      return await this.baseUpdate(criteria, entity);
-    } else {
-      return await this.repository.delete(criteria);
+    try {
+      if (softDelete) {
+        entity.is_delete = 0;
+        return await this.baseUpdate(criteria, entity);
+      } else {
+        return await this.repository.delete(criteria);
+      }
+    } catch (e) {
+      throw new ApiException(`删除数据失败`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -95,7 +96,7 @@ export abstract class DataBaseService<T> {
     try {
       return await this.repository.update(id, partialEntity);
     } catch (err) {
-      throw new BadRequestException(err);
+      throw new ApiException('修改数据失败', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

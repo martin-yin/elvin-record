@@ -2,11 +2,9 @@ import { ApiException } from '@/app/core/exceptions';
 import { Result } from '@/app/core/interfaces';
 import { DataBaseService } from '@/app/core/services';
 import { success } from '@/app/core/utils';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateMenuDto } from './dto/create-menu.dto';
-import { EditMenuDto } from './dto/update-menu.dto';
 import { MenuEntity } from './entity/menu.entity';
 
 @Injectable()
