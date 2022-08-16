@@ -1,23 +1,32 @@
-import { IsNumber, IsOptional, IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
 export class CreateMenuDto {
-  @IsNumber({}, { message: '父节点必须是一个数字' })
-  @IsOptional()
-  readonly parentId: number;
+  @IsString({ message: '归属应用必须是一个字符串' })
+  @IsNotEmpty({ message: '归属应用不能为空' })
+  readonly application: string;
 
   @IsString({ message: '菜单名称必须是一个字符串' })
   @IsNotEmpty({ message: '菜单名称不能为空' })
   readonly name: string;
 
-  @IsString({ message: '菜单路由必须是一个字符串' })
-  @IsNotEmpty({ message: '菜单路由不能为空' })
-  readonly router: string;
+  @IsString({ message: '菜单编号必须是一个字符串' })
+  @IsNotEmpty({ message: '菜单编号不能为空' })
+  readonly code: string;
 
-  @IsString({ message: '文件路径必须是一个字符串' })
-  @IsNotEmpty({ message: '文件路径不能为空' })
-  readonly viewPath: string;
-  readonly perms: string;
+  readonly parentId?: number;
+
+  @IsNotEmpty({ message: '菜单类型不能为空' })
+  readonly type: number;
+
+  readonly router: string;
+  readonly routerName: string;
+  readonly component: string;
+  readonly redirect: string;
   readonly icon: string;
+  readonly openType: string;
+  readonly link: string;
   readonly sort: number;
-  readonly keepalive: boolean;
+  readonly visible: boolean;
+  readonly permission: string;
+  readonly authorizedApis: string;
 }

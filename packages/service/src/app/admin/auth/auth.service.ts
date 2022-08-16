@@ -117,10 +117,10 @@ export class AuthService {
 
     // 缓存用户访问令牌
     const client: Redis = this.redisService.getClient();
-    const milliseconds = this.timeUtil.getMs(
-      this.elConfigService.jwtTokenExpiresIn,
-    );
-    await client.psetex(`${payload.userId}`, milliseconds, accessToken);
+    // const milliseconds = this.timeUtil.getMs(
+    //   this.elConfigService.jwtTokenExpiresIn,
+    // );
+    await client.psetex(`${payload.userId}`, 7200000, accessToken);
 
     return accessToken;
   }

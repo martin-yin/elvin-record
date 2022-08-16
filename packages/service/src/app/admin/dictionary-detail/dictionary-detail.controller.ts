@@ -1,11 +1,4 @@
 import {
-  AUTHORIZEDICTIONARYDETAILCREATE,
-  AUTHORIZEDICTIONARYDETAILGET,
-  AUTHORIZEDICTIONARYDETAILEDIT,
-  AUTHORIZEDICTIONARYDETAILDELETE,
-} from '@/app/core/constants';
-import { Permission } from '@/app/core/decorators/permission.decorator';
-import {
   Body,
   Controller,
   Delete,
@@ -24,19 +17,16 @@ export class DictionaryDetailController {
     private readonly dictionaryDetailService: DictionaryDetailService,
   ) {}
 
-  @Permission(AUTHORIZEDICTIONARYDETAILCREATE)
   @Post()
   create(@Body() createDictionary: CreateDictionaryDetailDto) {
     return this.dictionaryDetailService.baseCreate(createDictionary);
   }
 
-  @Permission(AUTHORIZEDICTIONARYDETAILGET)
   @Get(':id')
   detail(@Param('id') id: string) {
     return this.dictionaryDetailService.detail(+id);
   }
 
-  @Permission(AUTHORIZEDICTIONARYDETAILEDIT)
   @Patch(':id')
   edit(
     @Param('id') id: string,
@@ -45,7 +35,6 @@ export class DictionaryDetailController {
     return this.dictionaryDetailService.baseEdit(+id, updateDictionary);
   }
 
-  @Permission(AUTHORIZEDICTIONARYDETAILDELETE)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.dictionaryDetailService.baseDelete(+id);
