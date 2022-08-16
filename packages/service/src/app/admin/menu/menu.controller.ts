@@ -1,11 +1,11 @@
 import {
-  AUTHORIZEMENUGETALL,
-  AUTHORIZEMENUGET,
-  AUTHORIZEMENUCREATE,
-  AUTHORIZEMENUEDIT,
-  AUTHORIZEMENUDELETE,
+  AUTHORIZE_MENU_CREATE,
+  AUTHORIZE_MENU_DELETE,
+  AUTHORIZE_MENU_EDIT,
+  AUTHORIZE_MENU_GET,
+  AUTHORIZE_MENU_GETALL,
 } from '@/app/core/constants';
-import { Permission } from '@/app/core/decorators/permission.decorator';
+import { ApiAuthorize } from '@/app/core/decorators';
 import { Result } from '@/app/core/interfaces';
 import { success } from '@/app/core/utils';
 import {
@@ -24,25 +24,25 @@ import { MenuService } from './menu.service';
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
-  @Permission(AUTHORIZEMENUGETALL)
+  @ApiAuthorize(AUTHORIZE_MENU_GETALL)
   @Get()
   async getAll(): Promise<Result> {
     return await this.menuService.getAll();
   }
 
-  @Permission(AUTHORIZEMENUGET)
+  @ApiAuthorize(AUTHORIZE_MENU_GET)
   @Get(':id')
   async get(@Param('id') id: number): Promise<Result> {
     return await this.menuService.getOne(id);
   }
 
-  @Permission(AUTHORIZEMENUCREATE)
+  @ApiAuthorize(AUTHORIZE_MENU_CREATE)
   @Post()
   async create(@Body() createMenuDto: CreateMenuDto): Promise<Result> {
     return await this.menuService.baseCreate(createMenuDto);
   }
 
-  @Permission(AUTHORIZEMENUEDIT)
+  @ApiAuthorize(AUTHORIZE_MENU_EDIT)
   @Put(':id')
   async edit(
     @Param('id') id: number,
@@ -51,7 +51,7 @@ export class MenuController {
     return await this.menuService.baseEdit(id, editMenuDto);
   }
 
-  @Permission(AUTHORIZEMENUDELETE)
+  @ApiAuthorize(AUTHORIZE_MENU_DELETE)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<Result> {
     await this.menuService.baseDelete(id);

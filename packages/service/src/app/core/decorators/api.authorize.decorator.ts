@@ -1,7 +1,9 @@
 import { SetMetadata } from '@nestjs/common';
 import { AUTHORIZE_METADATA } from '../constants';
 
-export const Permission = (...perms: Array<string | Array<string | null>>) => {
+export const ApiAuthorize = (
+  ...perms: Array<string | Array<string | null>>
+) => {
   return (
     target: any,
     key?: string | symbol,

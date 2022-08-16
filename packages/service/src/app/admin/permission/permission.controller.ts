@@ -1,11 +1,11 @@
 import {
-  AUTHORIZEPERMISSIONCREATE,
-  AUTHORIZEPERMISSIONDELETE,
-  AUTHORIZEPERMISSIONEDIT,
-  AUTHORIZEPERMISSIONGET,
-  AUTHORIZEPERMISSIONGETALL,
+  AUTHORIZE_PERMISSION_CREATE,
+  AUTHORIZE_PERMISSION_DELETE,
+  AUTHORIZE_PERMISSION_EDIT,
+  AUTHORIZE_PERMISSION_GET,
+  AUTHORIZE_PERMISSION_GETALL,
 } from '@/app/core/constants';
-import { Permission } from '@/app/core/decorators/permission.decorator';
+import { ApiAuthorize } from '@/app/core/decorators';
 import { Result } from '@/app/core/interfaces';
 import { success } from '@/app/core/utils';
 import {
@@ -23,19 +23,19 @@ import { PermissionService } from './permission.service';
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
-  @Permission(AUTHORIZEPERMISSIONGETALL)
+  @ApiAuthorize(AUTHORIZE_PERMISSION_GETALL)
   @Get()
   async getAll(): Promise<Result> {
     return await this.permissionService.getAll();
   }
 
-  @Permission(AUTHORIZEPERMISSIONGET)
+  @ApiAuthorize(AUTHORIZE_PERMISSION_GET)
   @Get(':id')
   async get(@Param('id') id: number): Promise<Result> {
     return await this.permissionService.getOne(id);
   }
 
-  @Permission(AUTHORIZEPERMISSIONCREATE)
+  @ApiAuthorize(AUTHORIZE_PERMISSION_CREATE)
   @Post()
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
@@ -43,7 +43,7 @@ export class PermissionController {
     return await this.permissionService.baseCreate(createPermissionDto);
   }
 
-  @Permission(AUTHORIZEPERMISSIONEDIT)
+  @ApiAuthorize(AUTHORIZE_PERMISSION_EDIT)
   @Put(':id')
   async edit(
     @Param('id') id: number,
@@ -52,7 +52,7 @@ export class PermissionController {
     return await this.permissionService.baseEdit(id, editPermissionDto);
   }
 
-  @Permission(AUTHORIZEPERMISSIONDELETE)
+  @ApiAuthorize(AUTHORIZE_PERMISSION_DELETE)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<Result> {
     await this.permissionService.baseDelete(id);

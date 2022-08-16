@@ -1,5 +1,8 @@
-import { AUTHORIZEROLECREATE, AUTHORIZEROLEGET } from '@/app/core/constants';
-import { Permission } from '@/app/core/decorators/permission.decorator';
+import {
+  AUTHORIZE_ROLE_CREATE,
+  AUTHORIZE_ROLE_GET,
+} from '@/app/core/constants';
+import { ApiAuthorize } from '@/app/core/decorators/api.authorize.decorator';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateRoleDto } from './dtos';
 import { RoleService } from './role.service';
@@ -8,7 +11,7 @@ import { RoleService } from './role.service';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @Permission(AUTHORIZEROLECREATE)
+  @ApiAuthorize(AUTHORIZE_ROLE_CREATE)
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto) {
     return await this.roleService.baseCreate(createRoleDto);
@@ -30,7 +33,7 @@ export class RoleController {
   //   );
   // }
 
-  @Permission(AUTHORIZEROLEGET)
+  @ApiAuthorize(AUTHORIZE_ROLE_GET)
   @Get()
   async get() {
     await this.roleService.getAll();
