@@ -76,22 +76,31 @@ export class RoleService extends DataBaseService<RoleEntity> {
    * @param roleId
    */
   async getRolePermissionList(roleId: number): Promise<string[]> {
-    const permissionIds = await this.rolePermissionRepository.query(
-      `select permissionId  as id from ` +
-        '`role-permission`' +
-        `where roleId = ${roleId}`,
+    // 查询用户的角色
+
+    const menuIds = await this.rolePermissionRepository.query(
+      `select menuId  as id from ` + '`role-menu`' + `where roleId = ${roleId}`,
     );
-    if (permissionIds.length === 0) {
+    if (menuIds.length === 0) {
       return [];
     }
 
-    const rolePermissionList = await this.rolePermissionRepository.query(
-      `SELECT name, code from api WHERE id in (${permissionIds.map(
-        (permission) => permission.id,
+    const authorizedApis = await this.rolePermissionRepository.query(
+      `select authorized_apis as ids from menu where id in (${menuIds.map(
+        (menu) => menu.id,
       )})`,
     );
+    const apiIds = [];
+    authorizedApis.forEach((authorizedApi) => {
+      if (authorizedApi.ids !== '') {
+        apiIds.push(...authorizedApi.ids.split(','));
+      }
+    });
+    const authorizedCode = await this.rolePermissionRepository.query(
+      `SELECT name, code from api WHERE id in (${apiIds})`,
+    );
 
-    return rolePermissionList.map((rolePermission) => rolePermission.code);
+    return authorizedCode.map((item) => item.code);
   }
 
   /**

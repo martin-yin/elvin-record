@@ -193,7 +193,6 @@ export class AuthService {
       }
       return Array.isArray(perm);
     });
-
     // 判断交集数量是否大于0
     if (_.intersection(userPermission, orPermissionList).length) {
       return true;
@@ -211,5 +210,6 @@ export class AuthService {
     if (_.intersection(userPermission, permissionList).length) {
       return true;
     }
+    return false;
   }
 }

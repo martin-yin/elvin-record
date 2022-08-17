@@ -17,9 +17,6 @@ export class ApiEntity extends BaseEntity {
   @Column('varchar', { length: 50, comment: '地址' })
   url: string;
 
-  @Column('bigint', { name: 'parent_id' })
-  parentId: number;
-
-  @Column('varchar', { length: 255, comment: '备注', default: '' })
-  remark: string;
+  @Column()
+  type: string;
 }
