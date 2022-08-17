@@ -6,12 +6,12 @@ export const AUTHORIZE_MENU_GET = 'api:menu:get';
 export const AUTHORIZE_MENU_CREATE = 'api:menu:create';
 export const AUTHORIZE_MENU_EDIT = 'api:menu:edit';
 export const AUTHORIZE_MENU_DELETE = 'api:menu:delete';
-// permission 控制器
-export const AUTHORIZE_PERMISSION_GETALL = 'api:permission:getAll';
-export const AUTHORIZE_PERMISSION_GET = 'api:permission:get';
-export const AUTHORIZE_PERMISSION_CREATE = 'api:permission:create';
-export const AUTHORIZE_PERMISSION_EDIT = 'api:permission:edit';
-export const AUTHORIZE_PERMISSION_DELETE = 'api:permission:delete';
+// api 控制器
+export const AUTHORIZE_API_GETALL = 'api:api:getAll';
+export const AUTHORIZE_API_GET = 'api:api:get';
+export const AUTHORIZE_API_CREATE = 'api:api:create';
+export const AUTHORIZE_API_EDIT = 'api:api:edit';
+export const AUTHORIZE_API_DELETE = 'api:api:delete';
 // role 控制器
 export const AUTHORIZE_ROLE_CREATE = 'api:role:create';
 // export const AUTHORIZE_ROLE_SAVEROLEMENUS = 'api:role:saveRoleMenus';

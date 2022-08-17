@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { CreatePermissionDto } from './create-permission.dto';
+import { CreateApiDto } from './create-api.dto';
 
-export class EditPermissionDto extends CreatePermissionDto {
+export class EditApiDto extends CreateApiDto {
   @IsNumber()
   @IsNotEmpty({ message: 'id 不能为空' })
   readonly id: number;

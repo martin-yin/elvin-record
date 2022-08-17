@@ -5,6 +5,9 @@ import { Column, Entity } from 'typeorm';
   name: 'menu',
 })
 export class MenuEntity extends BaseEntity {
+  @Column({ default: '', name: 'open_type', comment: '打开方式' })
+  openType: string;
+
   @Column({
     comment: '归属应用',
   })
@@ -40,9 +43,6 @@ export class MenuEntity extends BaseEntity {
 
   @Column({ default: '', comment: '菜单图标' })
   icon: string;
-
-  @Column({ default: '', name: 'open_type', comment: '打开方式' })
-  openType: string;
 
   @Column({ default: '', comment: '内外链地址' })
   link: string;

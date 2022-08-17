@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { DictionaryDetailModule } from './dictionary-detail/dictionary-detail.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { MenuModule } from './menu/menu.module';
-import { PermissionModule } from './permission/permission.module';
+import { PermissionModule } from './api/api.module';
 import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
 

@@ -5,22 +5,22 @@ import { success } from '@/app/core/utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PermissionEntity } from './entity/permission.entity';
+import { ApiEntity } from './entity/api.entity';
 
 @Injectable()
-export class PermissionService extends DataBaseService<PermissionEntity> {
+export class ApiService extends DataBaseService<ApiEntity> {
   constructor(
-    @InjectRepository(PermissionEntity)
-    private readonly permissionRepository: Repository<PermissionEntity>,
+    @InjectRepository(ApiEntity)
+    private readonly apiRepository: Repository<ApiEntity>,
   ) {
-    super(permissionRepository);
+    super(apiRepository);
   }
 
   /**
    * 获取所有许可
    */
   async getAll(): Promise<Result> {
-    const users = await this.permissionRepository.find();
+    const users = await this.apiRepository.find();
     if (users) return success('获取所有许可成功', users);
   }
 
@@ -28,7 +28,7 @@ export class PermissionService extends DataBaseService<PermissionEntity> {
    * 获取单个许可
    */
   async getOne(id: number): Promise<Result> {
-    const user = await this.permissionRepository.findOne({ where: { id } });
+    const user = await this.apiRepository.findOne({ where: { id } });
 
     if (user) {
       return success('获取许可成功', user);

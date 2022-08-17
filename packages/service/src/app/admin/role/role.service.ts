@@ -86,7 +86,7 @@ export class RoleService extends DataBaseService<RoleEntity> {
     }
 
     const rolePermissionList = await this.rolePermissionRepository.query(
-      `SELECT name, code from permission WHERE id in (${permissionIds.map(
+      `SELECT name, code from api WHERE id in (${permissionIds.map(
         (permission) => permission.id,
       )})`,
     );
