@@ -11,11 +11,13 @@ import { UserEntity } from '../users/entity/user.entity';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dtos';
 import { RoleService } from '../role/role.service';
+import { MenuService } from '../menu/menu.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private elConfigService: ElConfigService,
+    private menuService: MenuService,
     private redisService: RedisService,
     private jwtService: JwtService,
     private roleService: RoleService,
@@ -68,7 +70,14 @@ export class AuthService {
     // 保存刷新令牌
     await this.usersService.setRefreshToken(refreshToken, user.id);
 
-    return success('登录成功', { ...user, accessToken, refreshToken });
+    const menuList = await this.menuService.getAll(0);
+
+    return success('登录成功', {
+      ...user,
+      accessToken,
+      refreshToken,
+      menuList,
+    });
   }
 
   /**
@@ -193,6 +202,7 @@ export class AuthService {
       }
       return Array.isArray(perm);
     });
+
     // 判断交集数量是否大于0
     if (_.intersection(userPermission, orPermissionList).length) {
       return true;

@@ -14,9 +14,10 @@ export const AUTHORIZE_API_EDIT = 'api:api:edit';
 export const AUTHORIZE_API_DELETE = 'api:api:delete';
 // role 控制器
 export const AUTHORIZE_ROLE_CREATE = 'api:role:create';
-// export const AUTHORIZE_ROLE_SAVEROLEMENUS = 'api:role:saveRoleMenus';
+export const AUTHORIZE_ROLE_SAVEROLEMENUS = 'api:role:saveRoleMenus';
 // export const AUTHORIZE_ROLE_SAVEROLEAPIS = 'api:role:saveRoleApis';
 export const AUTHORIZE_ROLE_GET = 'api:role:get';
+export const AUTHORIZE_ROLE_GETALL = 'api:role:getAll';
 
 // user 控制器
 export const AUTHORIZE_USER_GET = 'api:user:get';

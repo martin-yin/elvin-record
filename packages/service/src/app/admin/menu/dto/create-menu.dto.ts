@@ -23,10 +23,10 @@ export class CreateMenuDto {
   readonly component: string;
   readonly redirect: string;
   readonly icon: string;
-  readonly openType: string;
+  readonly openType: number;
   readonly link: string;
   readonly sort: number;
-  readonly visible: boolean;
+  readonly visible: number;
   readonly permission: string;
   readonly authorizedApis: string;
 }

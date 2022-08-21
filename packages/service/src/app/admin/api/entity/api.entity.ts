@@ -19,4 +19,7 @@ export class ApiEntity extends BaseEntity {
 
   @Column()
   type: string;
+
+  @Column('varchar', { comment: 'api 分组' })
+  group: string;
 }

@@ -15,7 +15,9 @@ export class CreateApiDto {
 
   readonly remark: string;
 
-  readonly categoryId: number;
+  @IsString({ message: '分组必须是字符串' })
+  @IsNotEmpty({ message: '分组不能为空' })
+  readonly group: string;
 
   readonly status: number;
 }

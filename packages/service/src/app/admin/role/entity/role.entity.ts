@@ -5,8 +5,22 @@ import { Column, Entity } from 'typeorm';
   name: 'role',
 })
 export class RoleEntity extends BaseEntity {
-  id: number;
-
   @Column({ unique: true })
   name: string;
+
+  @Column({ type: 'varchar' })
+  remark: string;
+
+  @Column({ type: 'int' })
+  sort: number;
+
+  @Column({ type: 'varchar' })
+  code: number;
+
+  // id: '1';
+  // isDeleted: '0';
+  // name: '超级管理员';
+  // remark: '超级管理员';
+  // sort: 100;
+  // status: 0;
 }

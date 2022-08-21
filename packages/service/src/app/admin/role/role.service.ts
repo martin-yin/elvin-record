@@ -30,14 +30,15 @@ export class RoleService extends DataBaseService<RoleEntity> {
    * @param saveRoleMenusDto
    * @returns
    */
-  async saveRoleMenus({ id, menus }: SaveRoleMenusDto): Promise<Result> {
-    const menusId = menus.split(',');
-    const roleMenus: Partial<RoleMenuEntity>[] = menusId.map((menuId) => {
-      return {
-        roleId: id,
-        menuId: +menuId,
-      };
-    });
+  async saveRoleMenus({ id, menuIds }: SaveRoleMenusDto): Promise<Result> {
+    const roleMenus: Partial<RoleMenuEntity>[] = menuIds
+      .split(',')
+      .map((menuId) => {
+        return {
+          roleId: id,
+          menuId: +menuId,
+        };
+      });
 
     await this.roleMenuRepository.save<RoleMenuEntity>(
       this.roleMenuRepository.create(roleMenus),
@@ -85,12 +86,13 @@ export class RoleService extends DataBaseService<RoleEntity> {
       return [];
     }
 
+    const newMenuIds = menuIds.map((menu) => menu.id).join(',');
     const authorizedApis = await this.rolePermissionRepository.query(
-      `select authorized_apis as ids from menu where id in (${menuIds.map(
-        (menu) => menu.id,
-      )})`,
+      `select authorized_apis as ids from menu where id in (${newMenuIds})`,
     );
+
     const apiIds = [];
+
     authorizedApis.forEach((authorizedApi) => {
       if (authorizedApi.ids !== '') {
         apiIds.push(...authorizedApi.ids.split(','));
@@ -99,6 +101,8 @@ export class RoleService extends DataBaseService<RoleEntity> {
     const authorizedCode = await this.rolePermissionRepository.query(
       `SELECT name, code from api WHERE id in (${apiIds})`,
     );
+
+    console.log(authorizedCode, 'authorizedCode');
 
     return authorizedCode.map((item) => item.code);
   }

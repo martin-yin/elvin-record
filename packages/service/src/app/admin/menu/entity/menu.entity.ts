@@ -5,8 +5,8 @@ import { Column, Entity } from 'typeorm';
   name: 'menu',
 })
 export class MenuEntity extends BaseEntity {
-  @Column({ default: '', name: 'open_type', comment: '打开方式' })
-  openType: string;
+  @Column({ default: 0, name: 'open_type', comment: '打开方式' })
+  openType: number;
 
   @Column({
     comment: '归属应用',
@@ -15,11 +15,13 @@ export class MenuEntity extends BaseEntity {
 
   @Column({
     comment: '菜单名称',
+    unique: true,
   })
   name: string;
 
   @Column({
     comment: '菜单编号',
+    unique: true,
   })
   code: string;
 
@@ -50,8 +52,8 @@ export class MenuEntity extends BaseEntity {
   @Column({ type: 'int', default: 0, nullable: true })
   sort: number;
 
-  @Column({ type: 'boolean', default: false, comment: '是否显示' })
-  visible: boolean;
+  @Column({ type: 'int', default: 0, comment: '是否显示' })
+  visible: number;
 
   @Column({ type: 'varchar', default: '', comment: '权限标识' })
   permission: string;

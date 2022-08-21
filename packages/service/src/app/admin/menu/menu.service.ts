@@ -16,7 +16,10 @@ function formatToTree(ary: Array<any>, pid = 0) {
     )
     .map((item) => {
       // 通过父节点ID查询所有子节点
-      item.children = formatToTree(ary, +item.id);
+      item.children = formatToTree(ary, item.id);
+      if (item.children.length === 0) {
+        delete item.children;
+      }
       return item;
     });
 }
@@ -45,9 +48,12 @@ export class MenuService extends DataBaseService<MenuEntity> {
   /**
    * 获取所有菜单
    */
-  async getAll(): Promise<Result> {
-    const menuList = await this.menuRepository.find();
-    if (menuList) return success('获取所有菜单成功', formatToTree(menuList));
+  async getAll(tree = 1): Promise<any> {
+    const menuList = await this.menuRepository.find({
+      where: { application: 'system' },
+      order: { sort: 'ASC' },
+    });
+    if (menuList) return tree === 1 ? formatToTree(menuList) : menuList;
   }
 
   /**

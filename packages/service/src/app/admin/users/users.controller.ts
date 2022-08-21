@@ -11,13 +11,13 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @ApiAuthorize(AUTHORIZE_USER_GET)
+  @ApiAuthorize(AUTHORIZE_USER_GETALL)
   @Get()
   async getAll(): Promise<Result> {
     return await this.usersService.getAll();
   }
 
-  @ApiAuthorize(AUTHORIZE_USER_GETALL)
+  @ApiAuthorize(AUTHORIZE_USER_GET)
   @Get(':id')
   async get(@Param('id') id: number): Promise<Result> {
     return await this.usersService.getOne(id);

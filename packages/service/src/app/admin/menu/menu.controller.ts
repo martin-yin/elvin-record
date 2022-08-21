@@ -16,6 +16,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { EditMenuDto } from './dto/update-menu.dto';
@@ -26,8 +27,8 @@ export class MenuController {
 
   @ApiAuthorize(AUTHORIZE_MENU_GETALL)
   @Get()
-  async getAll(): Promise<Result> {
-    return await this.menuService.getAll();
+  async getAll(@Query('tree') tree?: number): Promise<Result> {
+    return success('获取所有菜单成功', await this.menuService.getAll(tree));
   }
 
   @ApiAuthorize(AUTHORIZE_MENU_GET)

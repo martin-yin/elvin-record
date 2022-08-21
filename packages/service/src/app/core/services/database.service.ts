@@ -42,7 +42,7 @@ export abstract class DataBaseService<T> {
   async baseEdit(id: number, entity: DeepPartial<T>) {
     let obj: T;
 
-    const existing = await this.repository.findOne(id as any);
+    const existing = await this.findOne(id as any);
     if (!existing)
       throw new ApiException(`修改失败，ID 为 '${id}' 数据不存在`, 404);
 

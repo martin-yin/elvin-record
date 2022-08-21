@@ -4,7 +4,7 @@ export class CreateRoleDto {
 
 export class SaveRoleMenusDto {
   readonly id: number;
-  readonly menus: string;
+  readonly menuIds: string;
 }
 
 export class SaveRolePermissionListDto {
