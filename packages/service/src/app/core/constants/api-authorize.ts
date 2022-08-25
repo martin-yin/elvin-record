@@ -36,3 +36,9 @@ export const AUTHORIZE_DICTIONARY_ITEM_GETAll = 'api:dictionary-item:getAll';
 export const AUTHORIZE_DICTIONARY_ITEM_GET = 'api:dictionary-item:get';
 export const AUTHORIZE_DICTIONARY_ITEM_EDIT = 'api:dictionary-item:edit';
 export const AUTHORIZE_DICTIONARY_ITEM_DELETE = 'api:dictionary-item:delete';
+
+export const AUTHORIZE_ADHIBITION_CREATE = 'api:adhibition:create';
+export const AUTHORIZE_ADHIBITION_EDIT = 'api:adhibition:edit';
+export const AUTHORIZE_ADHIBITION_DELETE = 'api:adhibition:delete';
+export const AUTHORIZE_ADHIBITION_GETALL = 'api:adhibition:getall';
+export const AUTHORIZE_ADHIBITION_GET = 'api:adhibition:get';

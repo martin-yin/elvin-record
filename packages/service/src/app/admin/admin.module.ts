@@ -9,6 +9,7 @@ import { MenuModule } from './menu/menu.module';
 import { PermissionModule } from './api/api.module';
 import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
+import { AdhibitionModule } from './adhibition/adhibition.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module';
     PermissionModule,
     DictionaryModule,
     DictionaryDetailModule,
+    AdhibitionModule,
   ],
   controllers: [],
   providers: [
