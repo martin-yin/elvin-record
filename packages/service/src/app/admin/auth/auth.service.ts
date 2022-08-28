@@ -1,29 +1,27 @@
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Redis } from 'ioredis';
 import { ApiException } from '@/app/core/exceptions';
 import { Result, TokenPayload } from '@/app/core/interfaces';
 import { ElConfigService } from '@/app/core/services';
-import { CryptoUtil, success, TimeUtil } from '@/app/core/utils';
+import { CryptoUtil, success } from '@/app/core/utils';
 import * as _ from 'lodash';
 import { UserEntity } from '../users/entity/user.entity';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dtos';
 import { RoleService } from '../role/role.service';
-import { MenuService } from '../menu/menu.service';
+import { AdhibitionService } from '../adhibition/adhibition.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private elConfigService: ElConfigService,
-    private menuService: MenuService,
     private redisService: RedisService,
     private jwtService: JwtService,
     private roleService: RoleService,
     private usersService: UsersService,
     private cryptoUtil: CryptoUtil,
-    private timeUtil: TimeUtil,
   ) {}
 
   /**
@@ -69,14 +67,9 @@ export class AuthService {
 
     // 保存刷新令牌
     await this.usersService.setRefreshToken(refreshToken, user.id);
-
-    const menuList = await this.menuService.getAll(0);
-
     return success('登录成功', {
       ...user,
       accessToken,
-      refreshToken,
-      menuList,
     });
   }
 

@@ -8,6 +8,7 @@ import { CryptoUtil, success } from '@/app/core/utils';
 import { ApiException } from '@/app/core/exceptions';
 import { Result, TokenPayload } from '@/app/core/interfaces';
 import { DataBaseService } from '@/app/core/services';
+import { AdhibitionService } from '../adhibition/adhibition.service';
 
 @Injectable()
 export class UsersService extends DataBaseService<UserEntity> {
@@ -15,6 +16,7 @@ export class UsersService extends DataBaseService<UserEntity> {
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
     private cryptoUtil: CryptoUtil,
+    private adhibitionService: AdhibitionService,
   ) {
     super(usersRepository);
   }
@@ -50,6 +52,12 @@ export class UsersService extends DataBaseService<UserEntity> {
   async getAll(): Promise<Result> {
     const users = await this.usersRepository.find();
     if (users) return success('获取所有用户成功', users);
+  }
+
+  async getUserInfo(id: number): Promise<Result> {
+    const user = await this.findOne(id);
+    const adhibitionList = await this.adhibitionService.getAll();
+    if (user) return success('获取用户成功', { user, adhibitionList });
   }
 
   /**

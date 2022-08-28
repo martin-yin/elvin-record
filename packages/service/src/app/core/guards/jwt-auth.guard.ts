@@ -41,7 +41,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     // 获取缓存令牌
     const client: Redis = this.redisService.getClient();
     const cacheToken = await client.get(payload['userId']);
-
     request['userId'] = payload['userId'];
 
     // 当cacheToken存在并且与访问令牌不匹配

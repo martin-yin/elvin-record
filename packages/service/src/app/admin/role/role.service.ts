@@ -102,8 +102,6 @@ export class RoleService extends DataBaseService<RoleEntity> {
       `SELECT name, code from api WHERE id in (${apiIds})`,
     );
 
-    console.log(authorizedCode, 'authorizedCode');
-
     return authorizedCode.map((item) => item.code);
   }
 

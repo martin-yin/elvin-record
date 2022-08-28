@@ -16,11 +16,11 @@ import { AdhibitionModule } from './adhibition/adhibition.module';
     RoleModule,
     MenuModule,
     AuthModule,
-    UsersModule,
     PermissionModule,
     DictionaryModule,
     DictionaryDetailModule,
     AdhibitionModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [

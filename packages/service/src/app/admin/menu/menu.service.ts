@@ -48,9 +48,9 @@ export class MenuService extends DataBaseService<MenuEntity> {
   /**
    * 获取所有菜单
    */
-  async getAll(tree = 1): Promise<any> {
+  async getAll(adhibition?: string, tree = 1): Promise<any> {
     const menuList = await this.menuRepository.find({
-      where: { application: 'system' },
+      where: { adhibition },
       order: { sort: 'ASC' },
     });
     if (menuList) return tree === 1 ? formatToTree(menuList) : menuList;

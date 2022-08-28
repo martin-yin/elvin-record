@@ -35,17 +35,16 @@ export class AdhibitionService extends DataBaseService<AdhibitionEntity> {
   /**
    * 获取所有应用
    */
-  async getAll({
-    name,
-    status,
-  }: {
+  async getAll(param?: {
     name: string;
     status: number;
-  }): Promise<Result> {
+  }): Promise<AdhibitionEntity[]> {
     const adhibitionList = await this.adhibitioRepository.find({
-      where: { name, status },
+      where: { ...param },
     });
-    if (adhibitionList) return success('获取所有应用成功', adhibitionList);
+    if (adhibitionList) {
+      return adhibitionList;
+    }
   }
 
   /**

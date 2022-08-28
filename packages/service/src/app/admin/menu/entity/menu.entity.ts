@@ -11,7 +11,7 @@ export class MenuEntity extends BaseEntity {
   @Column({
     comment: '归属应用',
   })
-  application: string;
+  adhibition: string;
 
   @Column({
     comment: '菜单名称',

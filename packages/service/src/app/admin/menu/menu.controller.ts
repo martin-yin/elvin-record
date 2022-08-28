@@ -27,8 +27,11 @@ export class MenuController {
 
   @ApiAuthorize(AUTHORIZE_MENU_GETALL)
   @Get()
-  async getAll(@Query('tree') tree?: number): Promise<Result> {
-    return success('获取所有菜单成功', await this.menuService.getAll(tree));
+  async getAll(@Query('adhibition') adhibition?: string): Promise<Result> {
+    return success(
+      '获取所有菜单成功',
+      await this.menuService.getAll(adhibition),
+    );
   }
 
   @ApiAuthorize(AUTHORIZE_MENU_GET)

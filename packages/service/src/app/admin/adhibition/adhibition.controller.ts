@@ -32,8 +32,8 @@ export class AdhibitionController {
     @Query('name') name: string,
     @Query('status') status: number,
   ): Promise<Result> {
-    console.log(name, status, '===============');
-    return await this.adhibitionService.getAll({ name, status });
+    const result = await this.adhibitionService.getAll({ name, status });
+    return success('获取所有应用成功', result);
   }
 
   @ApiAuthorize(AUTHORIZE_ADHIBITION_GET)
