@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateMenuDto {
   @IsString({ message: '归属应用必须是一个字符串' })
   @IsNotEmpty({ message: '归属应用不能为空' })
-  readonly application: string;
+  readonly adhibition: string;
 
   @IsString({ message: '菜单名称必须是一个字符串' })
   @IsNotEmpty({ message: '菜单名称不能为空' })
