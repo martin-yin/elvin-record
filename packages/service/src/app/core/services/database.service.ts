@@ -33,6 +33,7 @@ export abstract class DataBaseService<T> {
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY')
         throw new ApiException('数据已经存在', HttpStatus.CONFLICT);
+      console.log(error, '===========');
       throw new ApiException('新增数据失败', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

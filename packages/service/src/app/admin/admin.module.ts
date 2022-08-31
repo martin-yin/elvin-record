@@ -10,6 +10,7 @@ import { PermissionModule } from './api/api.module';
 import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
 import { AdhibitionModule } from './adhibition/adhibition.module';
+import { SourceMapModule } from './source-map/source-map.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AdhibitionModule } from './adhibition/adhibition.module';
     DictionaryDetailModule,
     AdhibitionModule,
     UsersModule,
+    SourceMapModule,
   ],
   controllers: [],
   providers: [

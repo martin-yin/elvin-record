@@ -4,7 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { AdminModule } from './admin/admin.module';
 import { CoreModule } from './core';
-import { UploadFileController } from './upload/upload.controller';
+import { UploadFileController } from './core/controller/upload.controller';
 
 @Module({
   imports: [CoreModule, AdminModule],

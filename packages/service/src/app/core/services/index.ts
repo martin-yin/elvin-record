@@ -9,3 +9,4 @@ export * from './typeorm.service';
 export * from './winston.service';
 export * from './el-logger.service';
 export * from './database.service';
+export * from './file.service';
