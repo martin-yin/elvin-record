@@ -8,9 +8,7 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { Express } from 'express';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { CreateSourceMapDto } from './dtos/create-source-map.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { GetSourceMapDto } from './dtos/get-source-map.dto';
 
 import { SourceMapService } from './source-map.service';

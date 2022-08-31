@@ -9,5 +9,6 @@ import { SourceMapService } from './source-map.service';
   imports: [TypeOrmModule.forFeature([SourceMapEntity])],
   controllers: [SourceMapController],
   providers: [SourceMapService, FileService],
+  exports: [SourceMapService],
 })
 export class SourceMapModule {}
