@@ -5,13 +5,12 @@ import { Redis } from 'ioredis';
 import { ApiException } from '@/app/core/exceptions';
 import { Result, TokenPayload } from '@/app/core/interfaces';
 import { ElConfigService } from '@/app/core/services';
-import { CryptoUtil, success } from '@/app/core/utils';
+import { CryptoUtil, success, TimeUtil } from '@/app/core/utils';
 import * as _ from 'lodash';
 import { UserEntity } from '../users/entity/user.entity';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dtos';
 import { RoleService } from '../role/role.service';
-import { AdhibitionService } from '../adhibition/adhibition.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +21,7 @@ export class AuthService {
     private roleService: RoleService,
     private usersService: UsersService,
     private cryptoUtil: CryptoUtil,
+    private timeUtil: TimeUtil,
   ) {}
 
   /**
@@ -119,10 +119,10 @@ export class AuthService {
 
     // 缓存用户访问令牌
     const client: Redis = this.redisService.getClient();
-    // const milliseconds = this.timeUtil.getMs(
-    //   this.elConfigService.jwtTokenExpiresIn,
-    // );
-    await client.psetex(`${payload.userId}`, 7200000, accessToken);
+    const milliseconds = this.timeUtil.getMs(
+      this.elConfigService.jwtTokenExpiresIn,
+    );
+    await client.psetex(`${payload.userId}`, milliseconds, accessToken);
 
     return accessToken;
   }

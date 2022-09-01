@@ -8,7 +8,8 @@ import {
   differenceInDays,
 } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import ms from 'ms';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ms = require('ms');
 
 @Injectable()
 export class TimeUtil {
@@ -22,7 +23,7 @@ export class TimeUtil {
   /**
    * 各种时间格式转换为毫秒
    */
-  public getMs = (value: string) => value;
+  public getMs = (value: string) => ms(value);
 
   /**
    * 获取当前时间戳

@@ -34,7 +34,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const accessToken = authorization.split(' ')[1];
     // 解析令牌载体
     const payload = this.jwtService.decode(accessToken);
-
+    console.log(payload, _.isNull(payload), 'what payload');
     if (_.isNull(payload))
       throw new ApiException('无效的身份认证', HttpStatus.UNAUTHORIZED);
 

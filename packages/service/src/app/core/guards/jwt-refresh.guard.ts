@@ -9,6 +9,8 @@ export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {
   }
 
   handleRequest(err: any, user: any) {
+    console.log(user, 'user');
+    console.log(err, 'err');
     if (err || !user) {
       throw err || new ApiException('身份认证已过期', HttpStatus.UNAUTHORIZED);
     }
