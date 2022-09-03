@@ -6,7 +6,7 @@ import { variableTypeDetection } from '../../utils/is';
 import type { RecordXhrData, RecordXMLHttpRequest, voidFun } from './interface';
 import { on } from './interface';
 
-export function xhrEventRecord(reportUrl: string): void {
+export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record-event'): void {
   if (!('XMLHttpRequest' in window)) {
     return;
   }
@@ -33,7 +33,7 @@ export function xhrEventRecord(reportUrl: string): void {
   });
   replaceOld(originalXhrProto, 'send', (originalSend: voidFun): voidFun => {
     return function (this: RecordXMLHttpRequest, ...args: any[]): void {
-      const { method } = this.before_report_data;
+      const { method } = this.beforeXhrRecordData;
       const httoReport: RecordXhrData = {
         ...this.beforeXhrRecordData,
         status: 0,
@@ -47,7 +47,7 @@ export function xhrEventRecord(reportUrl: string): void {
       const startTime = getTimestamp();
 
       on(this, 'loadend', function (this: RecordXMLHttpRequest) {
-        if (method === 'POST' && this.beforeRecordXhrData.httpUrl === reportUrl) {
+        if (method === 'POST' && this.beforeXhrRecordData.httpUrl === reportUrl) {
           return;
         }
 

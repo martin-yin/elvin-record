@@ -4,11 +4,16 @@
   import { ActionRecord } from '../record/action-record';
   import LoginForm from './login-form/login-form.svelte';
   import RecordButton from './record-button/record-button.svelte';
+  // import axios from 'axios';
+  import axios from 'axios/dist/axios';
+
   const dispatch = createEventDispatcher();
   let showLoginPanel = false;
   let actionRecord: ActionRecord;
   let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
-  let isLogin = false;
+  let loginStatus = false;
+
+  export let baseUrl = '';
 
   let switchButtonPosition = { x: 20, y: 20 };
   let fontSize = '';
@@ -23,12 +28,11 @@
         fontSize = Math.floor((1 / scale) * 16) + 'px';
       }
     }
-    const login = localStorage.getItem('login');
-    if (login) {
-      isLogin = true;
-      actionRecord = new ActionRecord({
-        unloadRecord: true
-      });
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      loginStatus = true;
+      actionRecord = new ActionRecord();
       if (actionRecord.getRecordStatus() === ActionRecordStatus.recording) {
         recordStatus = ActionRecordStatus.recording;
       }
@@ -45,10 +49,12 @@
     dispatch('show', { showLoginPanel: false });
   };
 
-  const handleLoginResult = (event: any) => {
-    if (event.detail.result === '登录成功了, 哥') {
+  const handleLogin = async (event: any) => {
+    const { data } = await axios.post(baseUrl + '/api/auth/login', event.detail);
+    if (data.code === 200) {
+      loginStatus = true;
       showLoginPanel = false;
-      isLogin = true;
+      localStorage.setItem('token', data.data.accessToken);
     }
   };
 
@@ -76,7 +82,7 @@
 <main>
   <div style={fontSize ? 'font-size:' + fontSize + ';' : ''}>
     <RecordButton bind:position={switchButtonPosition}>
-      {#if !isLogin}
+      {#if !loginStatus}
         <div on:click={onTapEventShow}>登录</div>
       {:else if recordStatus === ActionRecordStatus.done}
         <div on:click={startRecord}>录制</div>
@@ -88,9 +94,7 @@
     <div class:toggle={showLoginPanel}>
       <div class="mask" on:click={onTapEventHide} />
       <div class="panel">
-        {#if !isLogin}
-          <LoginForm on:loginResult={handleLoginResult} />
-        {/if}
+        <LoginForm on:login={handleLogin} />
       </div>
     </div>
   </div>
@@ -136,18 +140,18 @@
     }
   }
 
-  .record-btn {
-    display: block;
-    position: fixed;
-    right: (16em / @font);
-    bottom: (16em / @font);
-    color: #fff;
-    background-color: #1890ff;
-    line-height: 1;
-    font-size: (16em / @font);
-    padding: (10em / @font) (16em / @font);
-    z-index: 10000;
-    border-radius: (4em / @font);
-    box-shadow: 0 0 (8em / @font) rgb(0 0 0 / 40%);
-  }
+  // .record-btn {
+  //   display: block;
+  //   position: fixed;
+  //   right: (16em / @font);
+  //   bottom: (16em / @font);
+  //   color: #fff;
+  //   background-color: #1890ff;
+  //   line-height: 1;
+  //   font-size: (16em / @font);
+  //   padding: (10em / @font) (16em / @font);
+  //   z-index: 10000;
+  //   border-radius: (4em / @font);
+  //   box-shadow: 0 0 (8em / @font) rgb(0 0 0 / 40%);
+  // }
 </style>

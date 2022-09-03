@@ -1,4 +1,3 @@
-import type { PackFn } from 'rrweb/typings/packer/base';
 import type { eventWithTime, recordOptions } from 'rrweb/typings/types';
 
 export abstract class BaseActionRecord {
@@ -10,7 +9,7 @@ export abstract class BaseActionRecord {
 }
 
 export type ActionRecordOptionsType = Omit<recordOptions<any>, 'checkoutEveryNth' | 'checkoutEveryNms' | 'plugins'> & {
-  packFn?: boolean | PackFn;
+  pack?: boolean;
   unloadRecord: boolean;
 };
 

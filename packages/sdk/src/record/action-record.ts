@@ -1,8 +1,8 @@
-import { pack, record } from 'rrweb';
+import * as rrweb from 'rrweb';
 import type { eventWithTime } from 'rrweb/typings/types';
-import { addEventListeners, removeEventListeners } from './event';
-import type { ActionRecordOptionsType } from '../interface';
-import { BaseActionRecord, ActionRecordStatus } from '../interface';
+import { addEventListeners } from './event';
+import axios from 'axios';
+import { ActionRecordStatus, BaseActionRecord } from '../interface';
 import { xhrEventRecord } from './xhr';
 
 export let recordEventData: {
@@ -13,42 +13,11 @@ export let recordEventData: {
   status: ActionRecordStatus.done
 };
 
-/**
- * 如果本地存在录制的数据那么就继续录制
- */
-// function continueRecord() {
-//   const localRecordEventData = localStorage.getItem('recordEventData');
-
-//   if (localRecordEventData) {
-//     // 如果录制状态还没有结束的话，那么就继续录制
-//     try {
-//       console.log('根据录制状态，录制还未完成，现在开始继续录制');
-//       recordEventData = JSON.parse(localRecordEventData);
-
-//       return recordEventData;
-//     } catch (e) {
-//       // 解析json失败
-//       console.log('解析json数据失败，请从新开始录制');
-//       console.log(`失败原因：`, e);
-//     }
-//   }
-// }
-
 export class ActionRecord extends BaseActionRecord {
-  private options: ActionRecordOptionsType = {
-    unloadRecord: false
-  };
   private webRecord: any;
 
-  constructor(options?: ActionRecordOptionsType) {
+  constructor() {
     super();
-    if (options) {
-      this.options = options;
-      // 判断数据是否需要压缩的
-      if (options?.packFn) {
-        this.options.packFn = pack;
-      }
-    }
   }
 
   /**
@@ -78,13 +47,12 @@ export class ActionRecord extends BaseActionRecord {
       return;
     }
 
-    this.webRecord = record({
+    console.log(rrweb, 'rrweb.pack');
+    this.webRecord = rrweb.record({
       emit(event) {
         recordEventData.eventList.push(event);
       },
-      sampling: {
-        mousemove: false
-      }
+      packFn: rrweb.pack
     });
 
     recordEventData.status = ActionRecordStatus.recording;
@@ -100,8 +68,25 @@ export class ActionRecord extends BaseActionRecord {
    * 停止录制
    */
   public stopRecord() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const that = this;
+
     if (this.webRecord) {
-      this.clear();
+      axios
+        .post(
+          'http://127.0.0.1:3000/api/record-event',
+          {
+            recordEventList: recordEventData.eventList
+          },
+          {
+            headers: {
+              ['Authorization']: `Bearer ${localStorage.getItem('token')}`
+            }
+          }
+        )
+        .then(res => {});
+
+      that.clear();
 
       return recordEventData.status;
     }
@@ -112,7 +97,7 @@ export class ActionRecord extends BaseActionRecord {
    */
   private clear() {
     this.webRecord();
-    removeEventListeners();
+    console.log(1111111111);
     recordEventData = {
       eventList: [],
       status: ActionRecordStatus.done

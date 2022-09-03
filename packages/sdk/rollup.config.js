@@ -13,12 +13,12 @@ import packageJSON from './package.json';
 
 const globals = {
   axios: 'axios',
-  rrweb: 'rrweb',
   'error-stack-parser': 'ErrorStackParser'
 };
 const external = Object.keys({
-  rrweb: 'rrweb'
+  ...globals
 });
+
 const esExtelrnals = [...external, ...Object.keys(packageJSON.dependencies)];
 
 // 基础配置

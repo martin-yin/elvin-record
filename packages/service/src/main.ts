@@ -15,6 +15,7 @@ import { ElConfigService, ElLoggerService } from './app/core/services';
 import { ColorUtil } from './app/core/utils';
 import { TimeUtil } from './app/core/utils/time.util';
 import helmet from 'helmet';
+import { urlencoded, json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -30,6 +31,9 @@ async function bootstrap() {
 
   // 全局前缀
   app.setGlobalPrefix('api');
+
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
+  app.use(json({ limit: '50mb' }));
 
   // 设置HTTP标头
   app.use(helmet());
