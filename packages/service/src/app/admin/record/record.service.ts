@@ -39,7 +39,6 @@ export class RecordService extends DataBaseService<RecordEntity> {
     const recordEventList = [];
     const { browser, os, device } = new UAParser(ua).getResult();
 
-    console.log(device, '==========device');
     let href = '';
     // 解析后的数据
     const unRecordList: RecordEventType[] = recordList.map(
