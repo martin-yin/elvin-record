@@ -170,6 +170,7 @@ importers:
       redis: ^4.2.0
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
+      rrweb: ^2.0.0-alpha.0
       rxjs: ^7.5.6
       source-map-js: ^1.0.2
       source-map-support: ^0.5.21
@@ -227,6 +228,7 @@ importers:
       redis: 4.2.0
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
+      rrweb: 2.0.0-alpha.1
       rxjs: 7.5.6
       source-map-js: 1.0.2
       stacktrace-js: 2.0.2

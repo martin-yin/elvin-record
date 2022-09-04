@@ -12,8 +12,7 @@ const getPath = _path => path.resolve(__dirname, _path);
 import packageJSON from './package.json';
 
 const globals = {
-  axios: 'axios',
-  'error-stack-parser': 'ErrorStackParser'
+  axios: 'axios'
 };
 const external = Object.keys({
   ...globals

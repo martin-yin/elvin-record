@@ -2,7 +2,7 @@ import type { eventWithTime, recordOptions } from 'rrweb/typings/types';
 
 export abstract class BaseActionRecord {
   abstract getRecordStatus(): ActionRecordStatus;
-  abstract getRecordEventList(): eventWithTime[];
+  abstract getRecordEventList(): string[];
 
   abstract startRecord(recordEventList: eventWithTime[]): void;
   abstract stopRecord(): void;

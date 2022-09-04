@@ -1,6 +1,5 @@
 import { record } from 'rrweb';
-import type { eventWithTime } from 'rrweb/typings/types';
-import type { ActionRecordStatus } from '../../interface';
+import { extractErrorStack } from '../../utils/extractErrorStack';
 
 /**
  * 监听dom 点击事件
@@ -13,12 +12,22 @@ const domClickListener = (event: any) => {
   });
 };
 
+export const errorListener = (event: any) => {
+  const error = extractErrorStack(event) as any;
+
+  record.addCustomEvent('error', {
+    event: error
+  });
+};
+
 /**
  *
  * @param param
  */
 export function addEventListeners() {
   window.addEventListener('click', domClickListener, true);
+
+  window.addEventListener('error', errorListener, true);
 }
 
 export function removeEventListeners() {

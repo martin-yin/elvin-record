@@ -1,12 +1,12 @@
 import * as rrweb from 'rrweb';
-import type { eventWithTime } from 'rrweb/typings/types';
 import { addEventListeners } from './event';
 import axios from 'axios';
 import { ActionRecordStatus, BaseActionRecord } from '../interface';
 import { xhrEventRecord } from './xhr';
+import { getPackEvent } from '../utils/baseInfo';
 
 export let recordEventData: {
-  eventList: eventWithTime[];
+  eventList: string[];
   status: ActionRecordStatus;
 } = {
   eventList: [],
@@ -32,7 +32,7 @@ export class ActionRecord extends BaseActionRecord {
    * 获取录制的数据
    * @returns
    */
-  public getRecordEventList(): eventWithTime[] {
+  public getRecordEventList(): string[] {
     return recordEventData.eventList;
   }
 
@@ -47,12 +47,10 @@ export class ActionRecord extends BaseActionRecord {
       return;
     }
 
-    console.log(rrweb, 'rrweb.pack');
     this.webRecord = rrweb.record({
       emit(event) {
-        recordEventData.eventList.push(event);
-      },
-      packFn: rrweb.pack
+        recordEventData.eventList.push(getPackEvent(event));
+      }
     });
 
     recordEventData.status = ActionRecordStatus.recording;
@@ -72,11 +70,13 @@ export class ActionRecord extends BaseActionRecord {
     const that = this;
 
     if (this.webRecord) {
+      // 抓取基础信息
       axios
         .post(
-          'http://127.0.0.1:3000/api/record-event',
+          'http://127.0.0.1:3000/api/record',
           {
-            recordEventList: recordEventData.eventList
+            recordList: recordEventData.eventList,
+            ua: navigator.userAgent
           },
           {
             headers: {
@@ -97,7 +97,7 @@ export class ActionRecord extends BaseActionRecord {
    */
   private clear() {
     this.webRecord();
-    console.log(1111111111);
+
     recordEventData = {
       eventList: [],
       status: ActionRecordStatus.done

@@ -11,7 +11,7 @@ import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
 import { AdhibitionModule } from './adhibition/adhibition.module';
 import { SourceMapModule } from './source-map/source-map.module';
-import { RecordEventModule } from './record-event/record-event.module';
+import { RecordModule } from './record/record.module';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { RecordEventModule } from './record-event/record-event.module';
     AdhibitionModule,
     UsersModule,
     SourceMapModule,
-    RecordEventModule,
+    RecordModule,
   ],
   controllers: [],
   providers: [

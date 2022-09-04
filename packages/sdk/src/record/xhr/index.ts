@@ -6,7 +6,7 @@ import { variableTypeDetection } from '../../utils/is';
 import type { RecordXhrData, RecordXMLHttpRequest, voidFun } from './interface';
 import { on } from './interface';
 
-export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record-event'): void {
+export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record'): void {
   if (!('XMLHttpRequest' in window)) {
     return;
   }
