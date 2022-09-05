@@ -50,6 +50,8 @@ export class RecordService extends DataBaseService<RecordEntity> {
         return unRecord;
       },
     );
+
+    console.log(new UAParser(ua).getResult(), 'devicedevicedevicedevice');
     const record = await this.recordRepository.save(
       this.recordRepository.create({
         userId,
@@ -61,9 +63,9 @@ export class RecordService extends DataBaseService<RecordEntity> {
         osVersion: os.version,
         browser: browser.name,
         browserVersion: browser.version,
-        device: device.vendor,
-        deviceModel: device.model,
-        deviceType: device.type,
+        device: device.vendor || '',
+        deviceModel: device.model || '',
+        deviceType: device.type || '',
         ua,
       }),
     );

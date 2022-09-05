@@ -3,7 +3,7 @@ import { addEventListeners } from './event';
 import axios from 'axios';
 import { ActionRecordStatus, BaseActionRecord } from '../interface';
 import { xhrEventRecord } from './xhr';
-import { getPackEvent } from '../utils/baseInfo';
+import { getPackEvent } from '../utils/common';
 
 export let recordEventData: {
   eventList: string[];
@@ -15,9 +15,10 @@ export let recordEventData: {
 
 export class ActionRecord extends BaseActionRecord {
   private webRecord: any;
-
-  constructor() {
+  private options: { reportUrl: string; appId: string };
+  constructor(options: { reportUrl: string; appId: string }) {
     super();
+    this.options = options;
   }
 
   /**
@@ -66,17 +67,16 @@ export class ActionRecord extends BaseActionRecord {
    * 停止录制
    */
   public stopRecord() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const that = this;
+    const { reportUrl, appId } = this.options;
 
     if (this.webRecord) {
-      // 抓取基础信息
       axios
         .post(
-          'http://127.0.0.1:3000/api/record',
+          reportUrl,
           {
             recordList: recordEventData.eventList,
-            ua: navigator.userAgent
+            ua: navigator.userAgent,
+            appId
           },
           {
             headers: {
@@ -86,7 +86,7 @@ export class ActionRecord extends BaseActionRecord {
         )
         .then(res => {});
 
-      that.clear();
+      this.clear();
 
       return recordEventData.status;
     }

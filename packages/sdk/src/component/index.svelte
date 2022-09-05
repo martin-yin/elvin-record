@@ -4,8 +4,7 @@
   import { ActionRecord } from '../record/action-record';
   import LoginForm from './login-form/login-form.svelte';
   import RecordButton from './record-button/record-button.svelte';
-  // import axios from 'axios';
-  import axios from 'axios/dist/axios';
+  import axios from 'axios';
 
   const dispatch = createEventDispatcher();
   let showLoginPanel = false;
@@ -13,7 +12,9 @@
   let recordStatus: ActionRecordStatus = ActionRecordStatus.done;
   let loginStatus = false;
 
-  export let baseUrl = '';
+  export let reportUrl = '';
+  export let appId = '';
+  export let loginUrl = '';
 
   let switchButtonPosition = { x: 20, y: 20 };
   let fontSize = '';
@@ -32,7 +33,10 @@
     const token = localStorage.getItem('token');
     if (token) {
       loginStatus = true;
-      actionRecord = new ActionRecord();
+      actionRecord = new ActionRecord({
+        reportUrl,
+        appId
+      });
       if (actionRecord.getRecordStatus() === ActionRecordStatus.recording) {
         recordStatus = ActionRecordStatus.recording;
       }
@@ -50,10 +54,15 @@
   };
 
   const handleLogin = async (event: any) => {
-    const { data } = await axios.post(baseUrl + '/api/auth/login', event.detail);
+    const { data } = await axios.post(loginUrl, event.detail);
     if (data.code === 200) {
       loginStatus = true;
       showLoginPanel = false;
+      actionRecord = new ActionRecord({
+        reportUrl,
+        appId
+      });
+
       localStorage.setItem('token', data.data.accessToken);
     }
   };
