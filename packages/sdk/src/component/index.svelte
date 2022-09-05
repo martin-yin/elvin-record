@@ -15,6 +15,7 @@
   export let reportUrl = '';
   export let appId = '';
   export let loginUrl = '';
+  export let release = '';
 
   let switchButtonPosition = { x: 20, y: 20 };
   let fontSize = '';
@@ -35,7 +36,8 @@
       loginStatus = true;
       actionRecord = new ActionRecord({
         reportUrl,
-        appId
+        appId,
+        release
       });
       if (actionRecord.getRecordStatus() === ActionRecordStatus.recording) {
         recordStatus = ActionRecordStatus.recording;
@@ -60,7 +62,8 @@
       showLoginPanel = false;
       actionRecord = new ActionRecord({
         reportUrl,
-        appId
+        appId,
+        release
       });
 
       localStorage.setItem('token', data.data.accessToken);

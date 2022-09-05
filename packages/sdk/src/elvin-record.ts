@@ -5,6 +5,7 @@ export type ElvinRecordProps = {
   reportUrl: string;
   appId: string;
   loginUrl: string;
+  release: string;
 };
 
 export class ElvinRecord {
@@ -13,7 +14,7 @@ export class ElvinRecord {
     this._initComponent(options);
   }
 
-  private _initComponent({ reportUrl, appId, loginUrl }: ElvinRecordProps) {
+  private _initComponent({ reportUrl, appId, loginUrl, release }: ElvinRecordProps) {
     const target: HTMLElement = document.documentElement;
 
     this.compInstance = new RecordCompClass({
@@ -21,7 +22,8 @@ export class ElvinRecord {
       props: {
         reportUrl,
         appId,
-        loginUrl
+        loginUrl,
+        release
       }
     });
   }

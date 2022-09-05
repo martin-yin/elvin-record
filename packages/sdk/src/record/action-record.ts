@@ -15,8 +15,8 @@ export let recordEventData: {
 
 export class ActionRecord extends BaseActionRecord {
   private webRecord: any;
-  private options: { reportUrl: string; appId: string };
-  constructor(options: { reportUrl: string; appId: string }) {
+  private options: { reportUrl: string; appId: string; release: string };
+  constructor(options: { reportUrl: string; appId: string; release: string }) {
     super();
     this.options = options;
   }
@@ -67,7 +67,7 @@ export class ActionRecord extends BaseActionRecord {
    * 停止录制
    */
   public stopRecord() {
-    const { reportUrl, appId } = this.options;
+    const { reportUrl, appId, release } = this.options;
 
     if (this.webRecord) {
       axios
@@ -76,7 +76,8 @@ export class ActionRecord extends BaseActionRecord {
           {
             recordList: recordEventData.eventList,
             ua: navigator.userAgent,
-            appId
+            appId,
+            release
           },
           {
             headers: {
