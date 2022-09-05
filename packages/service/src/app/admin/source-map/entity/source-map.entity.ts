@@ -9,7 +9,7 @@ export class SourceMapEntity extends BaseEntity {
   name: string;
 
   @Column()
-  monitorId: string;
+  appId: string;
 
   @Column()
   release: string;

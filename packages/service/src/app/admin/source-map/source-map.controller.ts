@@ -22,9 +22,14 @@ export class SourceMapController {
   async create(
     @UploadedFiles()
     files: Array<Express.Multer.File>,
-    @Body() { release },
+    @Body() { release, appId, urlPrefix = '~/' },
   ) {
-    const result = await this.sourceMapService.create({ files, release });
+    const result = await this.sourceMapService.create({
+      files,
+      release,
+      appId,
+      urlPrefix,
+    });
     return success('上传source map 成功', result);
   }
 

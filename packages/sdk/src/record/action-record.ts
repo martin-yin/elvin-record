@@ -58,7 +58,7 @@ export class ActionRecord extends BaseActionRecord {
     // 初始化监听
     addEventListeners();
     // xhr 监听
-    xhrEventRecord('');
+    xhrEventRecord(this.options.reportUrl);
 
     return recordEventData.status;
   }

@@ -17,36 +17,14 @@ export class UploadFileController {
   async create(
     @UploadedFiles()
     files: Array<Express.Multer.File>,
-    @Body() { release },
+    @Body() { release, appId, urlPrefix },
   ) {
-    const result = await this.sourceMapService.create({ files, release });
+    const result = await this.sourceMapService.create({
+      files,
+      release,
+      appId,
+      urlPrefix,
+    });
     return success('上传source map 成功', result);
   }
-
-  // @Post()
-  // @UseInterceptors(FileInterceptor('file'))
-  // uploadFile(@UploadedFile() file, @Body() body) {
-  //   // 这里捕获错误，因为上传可能有各种各样的未知原因报错
-  //   try {
-  //     const fileName = `${Date.parse(Date())}.${file.originalname}`;
-  //     const writeImage = createWriteStream(
-  //       path.join(
-  //         __dirname,
-  //         '../../../../',
-  //         'upload',
-  //         `${file.originalname}-${Date.now()}-${file.originalname}`,
-  //       ),
-  //     );
-  //     writeImage.write(file.buffer);
-  //     return {
-  //       filePath: `/upload/${fileName}`,
-  //       size: file.size,
-  //       fileName,
-  //       originalname: file.originalname,
-  //       mimetype: file.mimetype,
-  //     };
-  //   } catch (e) {
-  //     throw new HttpException(e, HttpStatus.BAD_REQUEST);
-  //   }
-  // }
 }

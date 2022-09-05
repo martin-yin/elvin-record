@@ -26,7 +26,7 @@ export class SourceMapService extends DataBaseService<SourceMapEntity> {
     });
   }
 
-  async create({ files, release }) {
+  async create({ files, release, appId, urlPrefix }) {
     try {
       const writeFile = files.map((file) => {
         // 存储到服务器后的文件名称
@@ -37,9 +37,9 @@ export class SourceMapService extends DataBaseService<SourceMapEntity> {
         const fileDirPath = path.join(
           __dirname,
           '../../../../',
-          `upload/${release}-source-map`,
+          `${serviceFileDir}`,
         );
-        const relativePath = `${serviceFileDir}/${serviceFileName}`;
+        const relativePath = `${urlPrefix}${serviceFileName}`;
         const filePath = path.join(serviceFileDir, serviceFileName);
         const witeResult = this.fileService.writeFile(fileDirPath, filePath);
         if (witeResult) {
@@ -47,7 +47,7 @@ export class SourceMapService extends DataBaseService<SourceMapEntity> {
             name: file.originalname,
             size: file.size,
             path: relativePath,
-            monitorId: '',
+            appId,
             release,
           });
         }

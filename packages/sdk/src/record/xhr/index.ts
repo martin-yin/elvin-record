@@ -6,7 +6,7 @@ import { variableTypeDetection } from '../../utils/is';
 import type { RecordXhrData, RecordXMLHttpRequest, voidFun } from './interface';
 import { on } from './interface';
 
-export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record'): void {
+export function xhrEventRecord(reportUrl: string): void {
   if (!('XMLHttpRequest' in window)) {
     return;
   }
@@ -25,7 +25,7 @@ export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record'): 
       this.beforeXhrRecordData = {
         method,
         url: getLocationHref(),
-        httpUrl: args[1].split('?')[0] ? args[1].split('?')[0] : args[1]
+        httpUrl: args[1]
       };
 
       originalOpen.apply(this, args as any);
@@ -34,7 +34,7 @@ export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record'): 
   replaceOld(originalXhrProto, 'send', (originalSend: voidFun): voidFun => {
     return function (this: RecordXMLHttpRequest, ...args: any[]): void {
       const { method } = this.beforeXhrRecordData;
-      const httoReport: RecordXhrData = {
+      const httpReport: RecordXhrData = {
         ...this.beforeXhrRecordData,
         status: 0,
         statusText: '',
@@ -53,17 +53,18 @@ export function xhrEventRecord(reportUrl = 'http://127.0.0.1:3000/api/record'): 
 
         const { responseType, response, status } = this;
 
-        httoReport.status = status;
+        httpReport.requestData = args[0];
+        httpReport.status = status;
         if (['', 'json', 'text'].indexOf(responseType) !== -1) {
-          httoReport.responseText = typeof response === 'object' ? JSON.stringify(response) : response;
+          httpReport.responseText = typeof response === 'object' ? JSON.stringify(response) : response;
         }
 
-        httoReport.statusText = isHttpFail(status) ? 'fail' : fromHttpStatus(status);
-        httoReport.happenTime = getTimestamp();
-        httoReport.loadTime = getTimestamp() - startTime;
+        httpReport.statusText = isHttpFail(status) ? 'fail' : fromHttpStatus(status);
+        httpReport.happenTime = getTimestamp();
+        httpReport.loadTime = getTimestamp() - startTime;
 
         record.addCustomEvent('xhr', {
-          event: httoReport
+          event: httpReport
         });
       });
       originalSend.apply(this, args as any);

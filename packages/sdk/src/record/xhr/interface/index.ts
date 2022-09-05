@@ -23,6 +23,7 @@ export interface RecordXhrData {
   requestText: string;
   happenTime: number;
   loadTime: number;
+  requestData: string;
 }
 
 export function on(
