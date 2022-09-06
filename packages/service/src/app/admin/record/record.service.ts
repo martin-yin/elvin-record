@@ -1,11 +1,16 @@
 import { DataBaseService } from '@/app/core/services';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as _ from 'lodash';
 import { Repository } from 'typeorm';
 import { UAParser } from 'ua-parser-js';
 import { RecordEventType } from './dto/create-record.dto';
 import { RecordEventEntity } from './entity/record-event.entity';
 import { RecordEntity } from './entity/record.entity';
+
+function camelCaseKey(o) {
+  return _.mapKeys(o, (value, key) => _.camelCase(key));
+}
 
 const rrweb = require('rrweb');
 @Injectable()
@@ -24,9 +29,18 @@ export class RecordService extends DataBaseService<RecordEntity> {
     return await this.recordRepository.find();
   }
 
+  /**
+   * 获取录制信息详情
+   * @param id
+   * @returns
+   */
   async getRecordDetail(id: number) {
+    const recordDetail = await this.recordRepository.query(
+      'SELECT record.*, `record`.`os_version` AS `osVersion`, `user`.`username` AS `username`,  `user`.`avatar` AS `avatar` FROM `record` `record` LEFT JOIN `user` `user` ON `record`.`userId` = `user`.`id`' +
+        `where record.id = ${id}`,
+    );
     return {
-      record: await this.findOne(id),
+      record: camelCaseKey(recordDetail[0]),
       recordEventList: await this.recordEventEntityRepository.find({
         where: {
           recordId: id,
@@ -35,7 +49,7 @@ export class RecordService extends DataBaseService<RecordEntity> {
     };
   }
 
-  async create(recordList: Array<string>, ua: string, userId = 1) {
+  async create(recordList: Array<string>, ua: string, userId: number) {
     const recordEventList = [];
     const { browser, os, device } = new UAParser(ua).getResult();
 

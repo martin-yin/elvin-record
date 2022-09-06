@@ -5,7 +5,7 @@ import {
   AUTHORIZE_MENU_GET,
   AUTHORIZE_MENU_GETALL,
 } from '@/app/core/constants';
-import { ApiAuthorize } from '@/app/core/decorators';
+import { ApiAuthorize, User } from '@/app/core/decorators';
 import { Result } from '@/app/core/interfaces';
 import { success } from '@/app/core/utils';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
@@ -17,10 +17,13 @@ export class RecordController {
 
   @ApiAuthorize(AUTHORIZE_MENU_GETALL)
   @Post()
-  async create(@Body() { recordList, ua }: CreateRecordList): Promise<Result> {
+  async create(
+    @Body() { recordList, ua }: CreateRecordList,
+    @User() user,
+  ): Promise<Result> {
     return success(
       '录制数据提交成功',
-      await this.recordService.create(recordList, ua),
+      await this.recordService.create(recordList, ua, user.id),
     );
   }
 
